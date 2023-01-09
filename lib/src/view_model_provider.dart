@@ -25,7 +25,7 @@ class ViewModelProvider<T extends ViewModel> extends StatefulWidget {
 }
 
 extension ViewModelExtension on BuildContext {
-  T vm<T>() => ViewModelProvider.of(this);
+  T vm<T extends ViewModel>() => ViewModelProvider.of<T>(this);
 }
 
 class _ViewModelProviderState<T extends ViewModel>

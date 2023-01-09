@@ -2,13 +2,13 @@ import 'package:flutter/widgets.dart';
 
 abstract class AnyFlow<T> extends ChangeNotifier {
   T _value;
-  T get value => _value;
 
   AnyFlow(this._value);
 }
 
 class SharedFlow<T> extends AnyFlow<T?>{
   SharedFlow() : super(null);
+  T? get lastEmitValue => _value;
 }
 
 class MutableSharedFlow<T> extends SharedFlow<T>{
@@ -19,6 +19,8 @@ class MutableSharedFlow<T> extends SharedFlow<T>{
 }
 
 class StateFlow<T> extends AnyFlow<T> {
+  T get value => _value;
+
   StateFlow(T value): super(value);
 }
 

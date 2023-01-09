@@ -5,10 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'flow.dart';
 
 class ViewModelBuilder<T> extends StatefulWidget {
-  final StateFlow<T> observeOn;
+  final StateFlow<T> stateFlow;
   final Widget Function(BuildContext context, T? value) builder;
 
-  const ViewModelBuilder({super.key, required this.observeOn, required this.builder});
+  const ViewModelBuilder({super.key, required this.stateFlow, required this.builder});
 
   @override
   State<ViewModelBuilder<T>> createState() => _ViewModelBuilderState<T>();
@@ -19,12 +19,12 @@ class _ViewModelBuilderState<T> extends State<ViewModelBuilder<T>> {
   @override
   void initState() {
     super.initState();
-    widget.observeOn.addListener(_stateListener);
+    widget.stateFlow.addListener(_stateListener);
   }
 
   @override
   void dispose() {
-    widget.observeOn.removeListener(_stateListener);
+    widget.stateFlow.removeListener(_stateListener);
     super.dispose();
   }
 
@@ -36,8 +36,8 @@ class _ViewModelBuilderState<T> extends State<ViewModelBuilder<T>> {
 
   @override
   void didUpdateWidget(covariant ViewModelBuilder<T> oldWidget) {
-    if (widget.observeOn != oldWidget.observeOn) {
-      _migrate(widget.observeOn, oldWidget.observeOn, _stateListener);
+    if (widget.stateFlow != oldWidget.stateFlow) {
+      _migrate(widget.stateFlow, oldWidget.stateFlow, _stateListener);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -49,6 +49,6 @@ class _ViewModelBuilderState<T> extends State<ViewModelBuilder<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.observeOn.value);
+    return widget.builder(context, widget.stateFlow.value);
   }
 }

@@ -13,7 +13,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ViewModel Example',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        appBarTheme:  AppBarTheme(color: Colors.blue.shade100, ),
+        useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
@@ -22,26 +25,32 @@ class MyApp extends StatelessWidget {
 }
 
 class MyViewModel extends ViewModel {
-  final _liveData = MutableStateFlow<int>(1);
-  final _sharedFlow = MutableSharedFlow<int>();
+  // initialize StateFlow
+  final _counterStateFlow = MutableStateFlow<int>(1);
 
-  StateFlow<int> get liveData => _liveData;
-  SharedFlow<int> get sharedFlow => _sharedFlow;
+  StateFlow<int> get counterStateFlow => _counterStateFlow;
+
+  // initialize SharedFlow
+  final _messageSharedFlow = MutableSharedFlow<String>();
+
+  SharedFlow<String> get messageSharedFlow => _messageSharedFlow;
 
   void increment() {
-    debugPrint("increment -> pressed");
-    _liveData.value = _liveData.value + 1;
-    if (_liveData.value % 2 == 0) {
-      _sharedFlow.emit(_liveData.value);
-    }
+    // by changing the value, listeners were notified
+    _counterStateFlow.value = _counterStateFlow.value + 1;
+  }
+
+  void showPopupMessage() {
+    // by emitting the value, listeners were notified
+    _messageSharedFlow.emit("Hello from MyViewModel!");
   }
 
   @override
   void dispose() {
-    _liveData.dispose();
-    _sharedFlow.dispose();
+    // must dispose all flows
+    _counterStateFlow.dispose();
+    _messageSharedFlow.dispose();
   }
-
 }
 
 class HomePage extends StatelessWidget {
@@ -49,58 +58,60 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // wrap the content with your custom ViewModel
     return ViewModelProvider(
       create: (context) => MyViewModel(),
-      child: const _HomePageContent(),
+      child: const HomePageContent(),
     );
   }
 }
 
-class _HomePageContent extends StatefulWidget {
-  const _HomePageContent({Key? key}) : super(key: key);
+class HomePageContent extends StatelessWidget {
+  const HomePageContent({Key? key}) : super(key: key);
 
-  @override
-  State<_HomePageContent> createState() => _HomePageContentState();
-}
-
-class _HomePageContentState extends State<_HomePageContent> {
   @override
   Widget build(BuildContext context) {
-    debugPrint('build');
     return Scaffold(
-      appBar: AppBar(title: const Text('ViewModel Example')),
-      body: Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                child: const Text('PressMe')),
-            ViewModelConsumer(
-                observeOn: ViewModelProvider.of<MyViewModel>(context).liveData,
-                listener: (context, value) {},
-                builder: (context, value) {
-                  debugPrint("wow");
-                  return Text("$value");
-                }),
-          ],
+      appBar: AppBar(
+        title: const Text('ViewModel Example'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                // call the showPopupMessage function which is inside of MyViewModel
+                context.vm<MyViewModel>().showPopupMessage();
+              },
+              icon: const Icon(Icons.mail_outline))
+        ],
+      ),
+      // implement ViewModelListener anywhere in code to listen any flow
+      body: ViewModelListener(
+        // pass your flow (StateFlow or SharedFlow)
+        flow: context.vm<MyViewModel>()._messageSharedFlow,
+        listener: (context, value) {
+          // get the emitted value. in this case <String?>"Hello from ViewModel!"
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(value ?? "null message")));
+        },
+        child: Center(
+          // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
+          child: ViewModelBuilder(
+              // pass your StateFlow
+              stateFlow: context.vm<MyViewModel>().counterStateFlow,
+              builder: (context, value) {
+                return Text(
+                  "$value",
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.w500),
+                );
+              }),
         ),
       ),
-      floatingActionButton: ViewModelListener(
-          observeOn: ViewModelProvider.of<MyViewModel>(context).sharedFlow,
-          listener: (context, value) {
-            debugPrint("listener - $value");
-          },
-
-          /*builder: (context, state) {*/
-          child: FloatingActionButton(
-            onPressed: () {
-              ViewModelProvider.of<MyViewModel>(context).increment();
-            },
-            child: const Icon(Icons.add),
-          )
-        // },
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // call the increment function which is inside MyViewModel
+          ViewModelProvider.of<MyViewModel>(context).increment();
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

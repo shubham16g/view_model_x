@@ -1,39 +1,88 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# View Model
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A ViewModel and Flow based state management package (inspired by Android ViewModel) make it easy to implement the MVVM pattern.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Android Like View Model
+- Easy to implement
+- Powerful
+- StateFlow (equivalent to LiveData)
+- SharedFlow
 
 ## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+```
+flutter pub add viewmodel
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+### my_view_model.dart
 ```
 
-## Additional information
+```
+OR
+```
+final controller = MultiImagePickerController(
+  maxImages: 15,
+  allowedImageTypes: ['png', 'jpg', 'jpeg'],
+  images: <ImageFile>[] // array of pre/default selected images
+);
+```
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+### UI Implementation
+```
+MultiImagePickerView(
+  controller: controller,
+  padding: const EdgeInsets.all(10),
+);
+```
+OR
+```
+MultiImagePickerView(
+  controller: controller,
+  initialContainerBuilder: (context, pickerCallback) {
+    // return custom initial widget which should call the pickerCallback when user clicks on it
+  },
+  itemBuilder: (context, image, removeCallback) {
+    // return custom card for image and remove button which also calls removeCallback on click
+  },
+  addMoreBuilder: (context, pickerCallback) {
+    // return custom card or item widget which should call the pickerCallback when user clicks on it
+  },
+  gridDelegate: /* Your SliverGridDelegate */,
+  draggable: /* true or false, images can be reorderd by dragging by user or not, default true */,
+  onDragBoxDecoration: /* BoxDecoration when item is dragging */,
+  onChange: (images) {
+    // callback to update images
+  },
+);
+```
+
+### Get Picked Images
+Picked Images can be get from controller.
+```
+final images = controller.images; // return Iterable<ImageFile>
+for (final image in images) {
+  if (image.hasPath)
+    request.addFile(File(image.path!));
+  else 
+    request.addFile(File.fromRawPath(image.bytes!));
+}
+request.send();
+```
+Also contoller can perform more actions.
+```
+controller.pickImages();
+controller.hasNoImages; // return bool
+controller.maxImages; // return maxImages
+controller.allowedImageTypes; // return allowedImageTypes
+controller.removeImage(imageFile); // remove image from the images
+controller.reOrderImage(oldIndex, newIndex); // reorder the image
+```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+

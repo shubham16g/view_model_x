@@ -4,13 +4,13 @@ import 'package:flutter/widgets.dart';
 import 'flow.dart';
 
 class ViewModelConsumer<T> extends StatefulWidget {
-  final StateFlow<T> observeOn;
+  final StateFlow<T> stateFlow;
   final void Function(BuildContext context, T? value) listener;
   final Widget Function(BuildContext context, T? value) builder;
 
   const ViewModelConsumer(
       {super.key,
-        required this.observeOn,
+        required this.stateFlow,
         required this.listener,
         required this.builder});
 
@@ -22,26 +22,26 @@ class _ViewModelConsumerState<T> extends State<ViewModelConsumer<T>> {
   @override
   void initState() {
     super.initState();
-    widget.observeOn.addListener(_stateListener);
+    widget.stateFlow.addListener(_stateListener);
   }
 
   @override
   void dispose() {
-    widget.observeOn.removeListener(_stateListener);
+    widget.stateFlow.removeListener(_stateListener);
     super.dispose();
   }
 
   void _stateListener() {
     if (mounted) {
-      widget.listener(context, widget.observeOn.value);
+      widget.listener(context, widget.stateFlow.value);
       setState(() {});
     }
   }
 
   @override
   void didUpdateWidget(covariant ViewModelConsumer<T> oldWidget) {
-    if (widget.observeOn != oldWidget.observeOn) {
-      _migrate(widget.observeOn, oldWidget.observeOn, _stateListener);
+    if (widget.stateFlow != oldWidget.stateFlow) {
+      _migrate(widget.stateFlow, oldWidget.stateFlow, _stateListener);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -52,6 +52,6 @@ class _ViewModelConsumerState<T> extends State<ViewModelConsumer<T>> {
   }
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.observeOn.value);
+    return widget.builder(context, widget.stateFlow.value);
   }
 }
