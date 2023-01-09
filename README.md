@@ -184,7 +184,7 @@ This requires `stateFlow` to listen on and `builder` to which rebuilds when the 
 
 ```dart
 ViewModelBuilder(
-  stateFlow: context.vm<CustomViewModel>().myStateFlow, //
+  stateFlow: context.vm<CustomViewModel>().myStateFlow, // pass StateFlow
   builder: (context, value) {
     return ChildWidget(value); // rebuild the widget with updated/changed value.
   },
@@ -199,7 +199,7 @@ Whenever `stateFlow`'s value changed/updated, `builder` will rebuild the widgets
 
 ```dart
 ViewModelConsumer(
-  stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, //
+  stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, // pass SharedFlow
   listener: (context, value) {
     // do stuff here based on value
   },
@@ -217,7 +217,7 @@ Whenever `flow`'s value changed/updated (if it is StateFlow) or emit value (it i
 
 ```dart
 ViewModelListener(
-  flow: ViewModelProvider.of<CustomViewModel>(context).anyStateFlowOrSharedFlow, //
+  flow: ViewModelProvider.of<CustomViewModel>(context).anyStateFlowOrSharedFlow, // pass StateFlow or SharedFlow
   listener: (context, value) {
     // do stuff here based on value
   },
