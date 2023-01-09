@@ -1,4 +1,4 @@
-name: viewmodel
+name: view_model_x
 description: A ViewModel and Flow based state management package (inspired by Android ViewModel) make it easy to implement the MVVM pattern.
 version: 0.1.0
 homepage: https://github.com/shubham-gupta-16/viewmodel

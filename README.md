@@ -1,4 +1,4 @@
-# ViewModel
+# View Model X
 
 A ViewModel and Flow based state management package (inspired by Android ViewModel) make it easy to implement the MVVM pattern.
 
@@ -13,7 +13,7 @@ A ViewModel and Flow based state management package (inspired by Android ViewMod
 ## Getting started
 
 ```console
-flutter pub add viewmodel
+flutter pub add view_model_x
 ```
 
 ## Usage
