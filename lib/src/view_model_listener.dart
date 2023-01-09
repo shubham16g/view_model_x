@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'flow.dart';
 
+/// [ViewModelListener] is used to rebuild the widgets inside of it and call the listener.
+/// This requires [flow] (which can be [SharedFlow] or [StateFlow]), [listener] and [child].
+/// Whenever [flow]'s value changed/updated (if it is StateFlow) or emit value (it it is StateFlow), [listener] will called.
 class ViewModelListener<T> extends StatefulWidget {
   final AnyFlow<T> flow;
   final void Function(BuildContext context, T? value) listener;

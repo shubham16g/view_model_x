@@ -1,9 +1,9 @@
-
-
 import 'package:flutter/widgets.dart';
 
 import 'view_model.dart';
 
+/// [ViewModelProvider] is used to wrap the widget with your custom [ViewModel].
+/// This requires [create] which accepts custom [ViewModel] and [child] Widget.
 class ViewModelProvider<T extends ViewModel> extends StatefulWidget {
   final T Function(BuildContext context) create;
   final Widget child;
@@ -14,6 +14,7 @@ class ViewModelProvider<T extends ViewModel> extends StatefulWidget {
   static F? maybeOf<F extends ViewModel>(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_VMP<F>>()?.viewModel;
 
+  /// [ViewModelProvider].[of] method allows to get the custom [ViewModel] from anywhere nested inside [ViewModelProvider]'s [child]
   static F of<F extends ViewModel>(BuildContext context) {
     final res = maybeOf<F>(context);
     assert(res != null, 'No ViewModel found in context');
@@ -25,12 +26,13 @@ class ViewModelProvider<T extends ViewModel> extends StatefulWidget {
 }
 
 extension ViewModelExtension on BuildContext {
+  /// [vm] is an [BuildContext] extension method.
+  /// This allows to get the custom [ViewModel] from anywhere nested inside [ViewModelProvider]'s [child]
   T vm<T extends ViewModel>() => ViewModelProvider.of<T>(this);
 }
 
 class _ViewModelProviderState<T extends ViewModel>
     extends State<ViewModelProvider<T>> {
-
   late final T _viewModel;
 
   @override

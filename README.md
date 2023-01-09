@@ -4,85 +4,92 @@ A ViewModel and Flow based state management package (inspired by Android ViewMod
 
 ## Features
 
-- Android Like View Model
-- Easy to implement
-- Powerful
-- StateFlow (equivalent to LiveData)
-- SharedFlow
+- Simplified ☺️ State Management
+- Easy to implement MVVM pattern 💪
+- Android 💚 like Environment
+- StateFlow (equivalent to LiveData) ⛵
+- SharedFlow 🌊
 
 ## Getting started
-```
+
+```console
 flutter pub add viewmodel
 ```
 
 ## Usage
 
 ### my_view_model.dart
-```
 
-```
-OR
-```
-final controller = MultiImagePickerController(
-  maxImages: 15,
-  allowedImageTypes: ['png', 'jpg', 'jpeg'],
-  images: <ImageFile>[] // array of pre/default selected images
-);
-```
+```dart
+class CounterViewModel extends ViewModel {
+  // initialize StateFlow
+  final _counterStateFlow = MutableStateFlow<int>(1);
 
-### UI Implementation
-```
-MultiImagePickerView(
-  controller: controller,
-  padding: const EdgeInsets.all(10),
-);
-```
-OR
-```
-MultiImagePickerView(
-  controller: controller,
-  initialContainerBuilder: (context, pickerCallback) {
-    // return custom initial widget which should call the pickerCallback when user clicks on it
-  },
-  itemBuilder: (context, image, removeCallback) {
-    // return custom card for image and remove button which also calls removeCallback on click
-  },
-  addMoreBuilder: (context, pickerCallback) {
-    // return custom card or item widget which should call the pickerCallback when user clicks on it
-  },
-  gridDelegate: /* Your SliverGridDelegate */,
-  draggable: /* true or false, images can be reorderd by dragging by user or not, default true */,
-  onDragBoxDecoration: /* BoxDecoration when item is dragging */,
-  onChange: (images) {
-    // callback to update images
-  },
-);
-```
+  StateFlow<int> get counterStateFlow => _counterStateFlow;
 
-### Get Picked Images
-Picked Images can be get from controller.
-```
-final images = controller.images; // return Iterable<ImageFile>
-for (final image in images) {
-  if (image.hasPath)
-    request.addFile(File(image.path!));
-  else 
-    request.addFile(File.fromRawPath(image.bytes!));
+  void increment() {
+    // by changing the value, listeners were notified
+    _counterStateFlow.value = _counterStateFlow.value + 1;
+  }
+
+  @override
+  void dispose() {
+    // must dispose all flows
+    _counterStateFlow.dispose();
+  }
 }
-request.send();
 ```
-Also contoller can perform more actions.
+
+### counter_page.dart
+
+```dart
+class CounterPage extends StatelessWidget {
+  const CounterPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // wrap the content with your custom ViewModel
+    return ViewModelProvider(
+      create: (context) => CounterViewModel(),
+      child: const CounterPageContent(),
+    );
+  }
+}
 ```
-controller.pickImages();
-controller.hasNoImages; // return bool
-controller.maxImages; // return maxImages
-controller.allowedImageTypes; // return allowedImageTypes
-controller.removeImage(imageFile); // remove image from the images
-controller.reOrderImage(oldIndex, newIndex); // reorder the image
+
+### counter_page_content.dart
+Any widget nested inside `ViewModelProvider`
+
+```dart
+class CounterPageContent extends StatelessWidget {
+  const CounterPageContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('ViewModel Counter Example')),
+      body: Center(
+        // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
+        child: ViewModelBuilder(
+            // pass your StateFlow
+            stateFlow: context.vm<CounterViewModel>().counterStateFlow,
+            builder: (context, value) {
+              return Text("$value", style: const TextStyle(fontSize: 30));
+            }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // call the increment function which is inside MyViewModel
+          ViewModelProvider.of<CounterViewModel>(context).increment();
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
 ```
 
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
 

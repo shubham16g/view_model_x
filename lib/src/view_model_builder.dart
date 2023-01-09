@@ -1,21 +1,21 @@
-
-
 import 'package:flutter/widgets.dart';
 
 import 'flow.dart';
 
+/// [ViewModelBuilder] is used to rebuild the widgets inside of it.
+/// This requires [stateFlow] to listen on and [builder] to which rebuilds when the [stateFlow]'s value changed/updated.
 class ViewModelBuilder<T> extends StatefulWidget {
   final StateFlow<T> stateFlow;
   final Widget Function(BuildContext context, T? value) builder;
 
-  const ViewModelBuilder({super.key, required this.stateFlow, required this.builder});
+  const ViewModelBuilder(
+      {super.key, required this.stateFlow, required this.builder});
 
   @override
   State<ViewModelBuilder<T>> createState() => _ViewModelBuilderState<T>();
 }
 
 class _ViewModelBuilderState<T> extends State<ViewModelBuilder<T>> {
-
   @override
   void initState() {
     super.initState();

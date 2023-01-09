@@ -1,8 +1,10 @@
-
 import 'package:flutter/widgets.dart';
 
 import 'flow.dart';
 
+/// [ViewModelConsumer] is used to rebuild the widgets inside of it and call the listener.
+/// This requires [stateFlow] to listen on, [builder] and [listener].
+/// Whenever [stateFlow]'s value changed/updated, [builder] will rebuild the widgets inside of it and [listener] will called.
 class ViewModelConsumer<T> extends StatefulWidget {
   final StateFlow<T> stateFlow;
   final void Function(BuildContext context, T? value) listener;
@@ -10,9 +12,9 @@ class ViewModelConsumer<T> extends StatefulWidget {
 
   const ViewModelConsumer(
       {super.key,
-        required this.stateFlow,
-        required this.listener,
-        required this.builder});
+      required this.stateFlow,
+      required this.listener,
+      required this.builder});
 
   @override
   State<ViewModelConsumer<T>> createState() => _ViewModelConsumerState<T>();
@@ -50,6 +52,7 @@ class _ViewModelConsumerState<T> extends State<ViewModelConsumer<T>> {
     b.removeListener(listener);
     a.addListener(listener);
   }
+
   @override
   Widget build(BuildContext context) {
     return widget.builder(context, widget.stateFlow.value);

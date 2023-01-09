@@ -15,7 +15,9 @@ class MyApp extends StatelessWidget {
       title: 'ViewModel Example',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme:  AppBarTheme(color: Colors.blue.shade100, ),
+        appBarTheme: AppBarTheme(
+          color: Colors.blue.shade100,
+        ),
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
@@ -100,8 +102,7 @@ class HomePageContent extends StatelessWidget {
               builder: (context, value) {
                 return Text(
                   "$value",
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.w500),
+                  style: const TextStyle(fontSize: 30),
                 );
               }),
         ),
