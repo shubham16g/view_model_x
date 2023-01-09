@@ -1,4 +1,4 @@
-# View Model
+# ViewModel
 
 A ViewModel and Flow based state management package (inspired by Android ViewModel) make it easy to implement the MVVM pattern.
 
