@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:viewmodel/viewmodel.dart';
+import 'package:view_model_x/view_model_x.dart';
 
 void main() {
   runApp(const MyApp());
@@ -85,18 +85,18 @@ class HomePageContent extends StatelessWidget {
               icon: const Icon(Icons.mail_outline))
         ],
       ),
-      // implement ViewModelListener anywhere in code to listen any flow
-      body: ViewModelListener(
-        // pass your flow (StateFlow or SharedFlow)
-        flow: context.vm<MyViewModel>()._messageSharedFlow,
+      // implement SharedFlowListener anywhere in code to listen for emits from sharedFlow
+      body: SharedFlowListener(
+        // pass your SharedFlow
+        sharedFlow: context.vm<MyViewModel>().messageSharedFlow,
         listener: (context, value) {
-          // get the emitted value. in this case <String?>"Hello from ViewModel!"
+          // get the emitted value. in this case <String>"Hello from ViewModel!"
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(value ?? "null message")));
+              .showSnackBar(SnackBar(content: Text(value)));
         },
         child: Center(
           // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
-          child: ViewModelBuilder(
+          child: StateFlowBuilder(
               // pass your StateFlow
               stateFlow: context.vm<MyViewModel>().counterStateFlow,
               builder: (context, value) {

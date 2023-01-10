@@ -1,20 +1,27 @@
 # View Model X
 
-A ViewModel and Flow based state management package (inspired by Android ViewModel) make it easy to implement the MVVM pattern.
+An Android similar state management package which helps to implement MVVM pattern easily.
+
+> **Note:** In Android, ViewModel have an special functionality of keeping the state on configuration change.
+> The ViewModel of this package is not for that as Flutter Project doesn't need it. It is only for separating the View Logic from UI.
 
 ## Features
 
 - Simplified ☺️ State Management
+- Similar code pattern with an Android project 🟰
+- Easy for developers to migrate 🛩️ from Android to Flutter
+- Allows developer to work with both Android to Flutter projects with ease 🐥
 - Easy to implement MVVM pattern 💪
-- Android 💚 like Environment
-- StateFlow (equivalent to LiveData) ⛵
-- SharedFlow 🌊
 
-## Getting started
-
-```console
-flutter pub add view_model_x
-```
+## Package Components
+- StateFlow, MutableStateFlow (equivalent to LiveData) ⛵
+- SharedFlow, MutableSharedFlow 🌊
+- ViewModel (to separate the view logic from UI like Cubit)
+- ViewModelProvider
+- StateFlowBuilder
+- StateFlowConsumer
+- StateFlowListener
+- SharedFlowListener
 
 ## Usage
 
@@ -69,8 +76,8 @@ class CounterPageContent extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('ViewModel Counter Example')),
       body: Center(
-        // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
-        child: ViewModelBuilder(
+        // implement StateFlowBuilder to rebuild Text on StateFlow value changed/updated
+        child: StateFlowBuilder(
             // pass your StateFlow
             stateFlow: context.vm<CounterViewModel>().counterStateFlow,
             builder: (context, value) {
@@ -90,10 +97,10 @@ class CounterPageContent extends StatelessWidget {
 }
 ```
 
-## ViewModel Elements
+## Package Components
 
-### Custom ViewModel class
-Create a your custom View-Model which must extends `ViewModel`. Declare all your Flows and View related logic inside of it.
+### ViewModel (Create custom ViewModel class)
+Create your custom View-Model which must extends `ViewModel`. Declare all your Flows and View related logic inside of it.
 Don't forget to dispose all flows inside `dispose` method of `ViewModel`.
 
 ```dart
@@ -177,13 +184,13 @@ OR
 context.vm<CustomViewModel>()
 ```
 
-### ViewModelBuilder
+### StateFlowBuilder
 
-`ViewModelBuilder` is used to rebuild the widgets inside of it.
+`StateFlowBuilder` is used to rebuild the widgets inside of it.
 This requires `stateFlow` to listen on and `builder` to which rebuilds when the `stateFlow`'s value changed/updated.
 
 ```dart
-ViewModelBuilder(
+StateFlowBuilder(
   stateFlow: context.vm<CustomViewModel>().myStateFlow, // pass StateFlow
   builder: (context, value) {
     return ChildWidget(value); // rebuild the widget with updated/changed value.
@@ -191,14 +198,14 @@ ViewModelBuilder(
 )
 ```
 
-### ViewModelConsumer
+### StateFlowConsumer
 
-`ViewModelConsumer` is used to rebuild the widgets inside of it and call the listener.
+`StateFlowConsumer` is used to rebuild the widgets inside of it and call the listener.
 This requires `stateFlow` to listen on, `builder` and `listener`.
 Whenever `stateFlow`'s value changed/updated, `builder` will rebuild the widgets inside of it and `listener` will called.
 
 ```dart
-ViewModelConsumer(
+StateFlowConsumer(
   stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, // pass SharedFlow
   listener: (context, value) {
     // do stuff here based on value
@@ -209,21 +216,42 @@ ViewModelConsumer(
 )
 ```
 
-### ViewModelListener
+### StateFlowListener
 
-`ViewModelListener` is used to rebuild the widgets inside of it and call the listener.
-This requires `flow` (which can be `SharedFlow` or `StateFlow`), `listener` and `child`.
-Whenever `flow`'s value changed/updated (if it is StateFlow) or emit value (it it is StateFlow), `listener` will called.
+`StateFlowListener` is used to catch the change/update value event of a `stateFlow`.
+This requires `stateFlow`, `listener` and `child`.
+Whenever `stateFlow`'s value changed/updated, `listener` will called.
 
 ```dart
-ViewModelListener(
-  flow: ViewModelProvider.of<CustomViewModel>(context).anyStateFlowOrSharedFlow, // pass StateFlow or SharedFlow
+StateFlowListener(
+  stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, // pass StateFlow
   listener: (context, value) {
     // do stuff here based on value
   },
   child: ChildWidget(),
 )
 ```
+
+
+### SharedFlowListener
+
+`SharedFlowListener` is used to catch the emitted value from `sharedFlow`.
+This requires `sharedFlow`, `listener` and `child`.
+Whenever `sharedFlow` emits a value, `listener` will called.
+
+```dart
+SharedFlowListener(
+  sharedFlow: ViewModelProvider.of<CustomViewModel>(context).mySharedFlow, // pass SharedFlow
+  listener: (context, value) {
+    // do stuff here based on value
+  },
+  child: ChildWidget(),
+)
+```
+
+## Coming soon
+- MultiViewModelProvider
+- MultiFlowListener
 
 ## Contributing
 
