@@ -61,10 +61,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // wrap the content with your custom ViewModel
-    return ViewModelProvider(
+    final v = MC(
       create: (context) => MyViewModel(),
-      child: const HomePageContent(),
+      child: HomePageContent(),
     );
+    return v;
   }
 }
 
