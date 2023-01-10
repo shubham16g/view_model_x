@@ -1,5 +1,4 @@
 import 'package:example/more_examples_section.dart';
-import 'package:example/multiple_view_models_example/multiple_view_models_example.dart';
 import 'package:flutter/material.dart';
 import 'package:view_model_x/view_model_x.dart';
 

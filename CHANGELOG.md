@@ -1,3 +1,9 @@
+## 0.3.0
+Starts using provider internally
+- MultiViewModelProvider added
+- Multiple ViewModel Example added
+- Dependency added: provider 6.0.5
+
 ## 0.2.0
 Builder, Consumer, and Listener Fixed
 - Fixed Bug

@@ -2,8 +2,7 @@ import 'package:example/multiple_view_models_example/multiple_view_models_exampl
 import 'package:flutter/material.dart';
 
 final _moreExamples = {
-  "Multiple ViewModels Example": const MultipleViewModelsExample(),
-  "MVVM": const MultipleViewModelsExample(),
+  "Multiple ViewModels Example": const MultipleViewModelsExample()
 };
 
 class MoreExamplesSection extends StatelessWidget {

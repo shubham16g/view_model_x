@@ -1,5 +1,7 @@
 # View Model X
 
+[![](https://img.shields.io/pub/v/view_model_x.svg?color=success&label=pub.dev&logo=dart&logoColor=0099ff)](https://pub.dev/packages/view_model_x)
+
 An Android similar state management package which helps to implement MVVM pattern easily.
 
 > **Note:** In Android, ViewModel have an special functionality of keeping the state on configuration change.
@@ -288,6 +290,7 @@ SharedFlowListener(
 
 ## Coming soon
 - MultiFlowListener
+- MVVM Example
 
 ## Contributing
 
