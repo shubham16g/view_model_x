@@ -20,11 +20,12 @@ class MutableSharedFlow<T> extends SharedFlow<T> {
 /// [StateFlow] stores value and notify listeners whenever it changes.
 class StateFlow<T> extends ChangeNotifier {
   T _value;
+  final bool notifyOnSameValue;
 
   /// get the current value.
   T get value => _value;
 
-  StateFlow(this._value);
+  StateFlow(this._value, {this.notifyOnSameValue = true});
 }
 
 /// [MutableStateFlow] is inherited from [StateFlow]. It can change/update the value.
@@ -33,8 +34,10 @@ class MutableStateFlow<T> extends StateFlow<T> {
 
   /// change the value and notify listeners
   set value(T value) {
-    _value = value;
-    notifyListeners();
+    if (_value != value || notifyOnSameValue) {
+      _value = value;
+      notifyListeners();
+    }
   }
 
   /// update the value and notify listeners
