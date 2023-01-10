@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:view_model_x/view_model_x.dart';
 
 class FirstViewModel extends ViewModel {
@@ -15,5 +16,6 @@ class FirstViewModel extends ViewModel {
   void dispose() {
     // must dispose all flows
     _counterStateFlow.dispose();
+    debugPrint("ViewModelA disposed");
   }
 }

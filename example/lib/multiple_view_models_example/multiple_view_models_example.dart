@@ -14,18 +14,8 @@ class MultipleViewModelsExample extends StatelessWidget {
         ViewModelProvider(create: (context) => FirstViewModel()),
         ViewModelProvider(create: (context) => SecondViewModel()),
       ],
-      child: MaterialApp(
-        title: 'Multiple ViewModels Example',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
-          appBarTheme: AppBarTheme(
-            color: Colors.green.shade100,
-          ),
-          primarySwatch: Colors.green,
-        ),
-        home: const ContentPage(),
-      ),
+      // child: MaterialApp(home: const ContentPage()),
+      child: const ContentPage(),
     );
   }
 }
@@ -36,7 +26,10 @@ class ContentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Multiple ViewModels Example')),
+      appBar: AppBar(
+          leading: const CloseButton(),
+          titleSpacing: 0,
+          title: const Text('Multiple ViewModels Example')),
       body: SharedFlowListener(
         sharedFlow: context.vm<SecondViewModel>().messageSharedFlow,
         listener: (context, value) {
@@ -67,6 +60,7 @@ class ContentPage extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           FloatingActionButton(
+            heroTag: "multi_view_models_example",
             onPressed: () {
               context.vm<FirstViewModel>().increment();
             },
