@@ -1,12 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import 'view_model.dart';
-
-class MultiViewModelProvider extends MultiProvider {
-  MultiViewModelProvider({super.key, required super.providers});
-}
 
 /// [ViewModelProvider] is used to wrap the widget with your custom [ViewModel].
 /// This requires [create] which accepts custom [ViewModel] and [child] Widget.

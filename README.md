@@ -29,20 +29,40 @@ An Android similar state management package which helps to implement MVVM patter
 
 ```dart
 class CounterViewModel extends ViewModel {
-  // initialize StateFlow
+  // initialize MutableStateFlow with initial value 1
   final _counterStateFlow = MutableStateFlow<int>(1);
 
   StateFlow<int> get counterStateFlow => _counterStateFlow;
 
+  // you can also define more the one StateFlow or SharedFlow inside any ViewModel
+
   void increment() {
-    // by changing the value, listeners were notified
+    // by changing the value, listeners notified
     _counterStateFlow.value = _counterStateFlow.value + 1;
   }
 
   @override
   void dispose() {
-    // must dispose all flows
+    // must dispose all the StateFlows and SharedFlows
     _counterStateFlow.dispose();
+  }
+}
+```
+
+### main.dart
+
+```dart
+void main() => runApp(CounterApp());
+
+class CounterApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ViewModelProvider(
+        create: (_) => CounterViewModel(),
+        child: CounterPage(),
+      ),
+    );
   }
 }
 ```
@@ -52,24 +72,6 @@ class CounterViewModel extends ViewModel {
 ```dart
 class CounterPage extends StatelessWidget {
   const CounterPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // wrap the content with your custom ViewModel
-    return ViewModelProvider(
-      create: (context) => CounterViewModel(),
-      child: const CounterPageContent(),
-    );
-  }
-}
-```
-
-### counter_page_content.dart
-Any widget nested inside `ViewModelProvider`
-
-```dart
-class CounterPageContent extends StatelessWidget {
-  const CounterPageContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +175,41 @@ ViewModelProvider(
   child: ChildWidget(),
 );
 ```
+### MultiViewModelProvider
+
+`MultiViewModelProvider` is a Flutter widget that merges multiple `ViewModelProvider` widgets into one.
+`MultiViewModelProvider` improves the readability and eliminates the need to nest multiple `ViewModelProvider`.
+By using `MultiViewModelProvider` we can go from:
+
+```dart
+ViewModelProvider(
+  create: (context) => ViewModelA(),
+  child: ViewModelProvider(
+    create: (context) => ViewModelB(),
+    child: ViewModelProvider(
+      create: (context) => ViewModelC(),
+      child: ChildA(),
+    )
+  )
+)
+```
+to
+```dart
+MultiViewModelProvider(
+  providers: [
+    ViewModelProvider(
+      create: (context) => ViewModelA(),
+    ),
+    ViewModelProvider(
+      create: (context) => ViewModelB(),
+    ),
+    ViewModelProvider(
+      create: (context) => ViewModelC(),
+    ),
+  ],
+  child: ChildA(),
+)
+```
 
 ### Get ViewModel instance inside Widget Tree
 
@@ -250,7 +287,6 @@ SharedFlowListener(
 ```
 
 ## Coming soon
-- MultiViewModelProvider
 - MultiFlowListener
 
 ## Contributing

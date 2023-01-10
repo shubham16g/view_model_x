@@ -1,29 +1,10 @@
+import 'package:example/more_examples_section.dart';
+import 'package:example/multiple_view_models_example/multiple_view_models_example.dart';
 import 'package:flutter/material.dart';
 import 'package:view_model_x/view_model_x.dart';
 
 void main() {
   runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ViewModel Example',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          color: Colors.blue.shade100,
-        ),
-        useMaterial3: true,
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
-    );
-  }
 }
 
 class MyViewModel extends ViewModel {
@@ -55,37 +36,37 @@ class MyViewModel extends ViewModel {
   }
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ViewModel Example',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          color: Colors.blue.shade100,
+        ),
+        useMaterial3: true,
+        primarySwatch: Colors.blue,
+      ),
+      home: ViewModelProvider(
+        create: (context) => MyViewModel(),
+          child: const HomePage()),
+    );
+  }
+}
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // wrap the content with your custom ViewModel
-    final v = MC(
-      create: (context) => MyViewModel(),
-      child: HomePageContent(),
-    );
-    return v;
-  }
-}
-
-class HomePageContent extends StatelessWidget {
-  const HomePageContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ViewModel Example'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                // call the showPopupMessage function which is inside of MyViewModel
-                context.vm<MyViewModel>().showPopupMessage();
-              },
-              icon: const Icon(Icons.mail_outline))
-        ],
-      ),
+        title: const Text('ViewModel Example')),
       // implement SharedFlowListener anywhere in code to listen for emits from sharedFlow
       body: SharedFlowListener(
         // pass your SharedFlow
@@ -95,25 +76,46 @@ class HomePageContent extends StatelessWidget {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(value)));
         },
-        child: Center(
-          // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
-          child: StateFlowBuilder(
-              // pass your StateFlow
-              stateFlow: context.vm<MyViewModel>().counterStateFlow,
-              builder: (context, value) {
-                return Text(
-                  "$value",
-                  style: const TextStyle(fontSize: 30),
-                );
-              }),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const MoreExamplesSection(),
+            Expanded(
+              child: Center(
+                // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
+                child: StateFlowBuilder(
+                    // pass your StateFlow
+                    stateFlow: context.vm<MyViewModel>().counterStateFlow,
+                    builder: (context, value) {
+                      return Text(
+                        "$value",
+                        style: const TextStyle(fontSize: 30),
+                      );
+                    }),
+              ),
+            ),
+          ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // call the increment function which is inside MyViewModel
-          ViewModelProvider.of<MyViewModel>(context).increment();
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              // call the increment function which is inside MyViewModel
+              ViewModelProvider.of<MyViewModel>(context).showPopupMessage();
+            },
+            child: const Icon(Icons.mail_outline),
+          ),
+          const SizedBox(width: 12),
+          FloatingActionButton(
+            onPressed: () {
+              // call the increment function which is inside MyViewModel
+              ViewModelProvider.of<MyViewModel>(context).increment();
+            },
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
