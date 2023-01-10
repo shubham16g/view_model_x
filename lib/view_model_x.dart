@@ -1,4 +1,4 @@
-library viewmodel;
+library view_model_x;
 
 export './src/flow.dart';
 export './src/view_model.dart';

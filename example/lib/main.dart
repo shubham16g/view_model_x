@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:viewmodel/viewmodel.dart';
+import 'package:view_model_x/view_model_x.dart';
 
 void main() {
   runApp(const MyApp());
