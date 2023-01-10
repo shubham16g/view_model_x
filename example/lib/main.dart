@@ -52,8 +52,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: ViewModelProvider(
-        create: (context) => CounterViewModel(),
-          child: const HomePage()),
+          create: (context) => CounterViewModel(), child: const HomePage()),
     );
   }
 }
@@ -64,8 +63,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ViewModel Example')),
+      appBar: AppBar(title: const Text('ViewModel Example')),
       // implement SharedFlowListener anywhere in code to listen for emits from sharedFlow
       body: SharedFlowListener(
         // pass your SharedFlow
@@ -103,7 +101,8 @@ class HomePage extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
             onPressed: () {
               // call the showPopupMessage function which is inside CounterViewModel
-              ViewModelProvider.of<CounterViewModel>(context).showPopupMessage();
+              ViewModelProvider.of<CounterViewModel>(context)
+                  .showPopupMessage();
             },
             icon: const Icon(Icons.mail_outline),
           ),

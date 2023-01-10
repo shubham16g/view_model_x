@@ -5,5 +5,6 @@ import 'package:provider/provider.dart';
 /// As a result, the only advantage of using [MultiViewModelProvider] is improved
 /// readability due to the reduction in nesting and boilerplate.
 class MultiViewModelProvider extends MultiProvider {
-  MultiViewModelProvider({super.key, required super.providers, super.child, super.builder});
+  MultiViewModelProvider(
+      {super.key, required super.providers, super.child, super.builder});
 }
