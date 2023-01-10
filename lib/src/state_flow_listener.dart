@@ -6,7 +6,7 @@ import 'flow.dart';
 /// Whenever [stateFlow]'s value changed/updated , [listener] will called.
 class StateFlowListener<T> extends StatefulWidget {
   final StateFlow<T> stateFlow;
-  final void Function(BuildContext context, T? value) listener;
+  final void Function(BuildContext context, T value) listener;
   final Widget child;
 
   const StateFlowListener(

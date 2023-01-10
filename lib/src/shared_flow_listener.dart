@@ -6,7 +6,7 @@ import 'flow.dart';
 /// Whenever [sharedFlow] emits a value, [listener] will called.
 class SharedFlowListener<T> extends StatefulWidget {
   final SharedFlow<T> sharedFlow;
-  final void Function(BuildContext context, T? value) listener;
+  final void Function(BuildContext context, T value) listener;
   final Widget child;
 
   const SharedFlowListener(
@@ -34,7 +34,10 @@ class _SharedFlowListenerState<T> extends State<SharedFlowListener<T>> {
 
   void _stateListener() {
     if (mounted) {
-      widget.listener(context, widget.sharedFlow.lastEmitValue);
+      final value = widget.sharedFlow.lastEmitValue;
+      if (value != null) {
+        widget.listener(context, value);
+      }
     }
   }
 

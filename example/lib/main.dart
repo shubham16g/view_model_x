@@ -90,9 +90,9 @@ class HomePageContent extends StatelessWidget {
         // pass your SharedFlow
         sharedFlow: context.vm<MyViewModel>().messageSharedFlow,
         listener: (context, value) {
-          // get the emitted value. in this case <String?>"Hello from ViewModel!"
+          // get the emitted value. in this case <String>"Hello from ViewModel!"
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(value ?? "null message")));
+              .showSnackBar(SnackBar(content: Text(value)));
         },
         child: Center(
           // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
