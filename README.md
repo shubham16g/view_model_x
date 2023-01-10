@@ -224,7 +224,7 @@ Whenever `stateFlow`'s value changed/updated, `listener` will called.
 
 ```dart
 StateFlowListener(
-  stateFlow: ViewModelProvider.of<CustomViewModel>(context).anyStateFlowOrSharedFlow, // pass StateFlow or SharedFlow
+  stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, // pass StateFlow
   listener: (context, value) {
     // do stuff here based on value
   },
@@ -241,7 +241,7 @@ Whenever `sharedFlow` emits a value, `listener` will called.
 
 ```dart
 SharedFlowListener(
-  stateFlow: ViewModelProvider.of<CustomViewModel>(context).anyStateFlowOrSharedFlow, // pass StateFlow or SharedFlow
+  sharedFlow: ViewModelProvider.of<CustomViewModel>(context).mySharedFlow, // pass SharedFlow
   listener: (context, value) {
     // do stuff here based on value
   },
