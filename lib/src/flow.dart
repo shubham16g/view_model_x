@@ -1,15 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-/// Abstract generic class which extends [ChangeNotifier] and stores value
-abstract class AnyFlow<T> extends ChangeNotifier {
-  T _value;
-
-  AnyFlow(this._value);
-}
-
 /// [SharedFlow] is used to send data to the listeners.
-class SharedFlow<T> extends AnyFlow<T?> {
-  SharedFlow() : super(null);
+class SharedFlow<T> extends ChangeNotifier {
+  T? _value;
 
   /// get the last emitted value
   T? get lastEmitValue => _value;
@@ -25,11 +18,13 @@ class MutableSharedFlow<T> extends SharedFlow<T> {
 }
 
 /// [StateFlow] stores value and notify listeners whenever it changes.
-class StateFlow<T> extends AnyFlow<T> {
+class StateFlow<T> extends ChangeNotifier {
+  T _value;
+
   /// get the current value.
   T get value => _value;
 
-  StateFlow(T value) : super(value);
+  StateFlow(this._value);
 }
 
 /// [MutableStateFlow] is inherited from [StateFlow]. It can change/update the value.

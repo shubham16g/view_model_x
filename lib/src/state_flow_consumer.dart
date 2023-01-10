@@ -2,20 +2,25 @@ import 'package:flutter/widgets.dart';
 
 import 'flow.dart';
 
-/// [ViewModelBuilder] is used to rebuild the widgets inside of it.
-/// This requires [stateFlow] to listen on and [builder] to which rebuilds when the [stateFlow]'s value changed/updated.
-class ViewModelBuilder<T> extends StatefulWidget {
+/// [StateFlowConsumer] is used to rebuild the widgets inside of it and catch the event in [listener].
+/// This requires [stateFlow] to listen on, [builder] and [listener].
+/// Whenever [stateFlow]'s value changed/updated, [builder] will rebuild the widgets inside of it and [listener] will called.
+class StateFlowConsumer<T> extends StatefulWidget {
   final StateFlow<T> stateFlow;
+  final void Function(BuildContext context, T? value) listener;
   final Widget Function(BuildContext context, T? value) builder;
 
-  const ViewModelBuilder(
-      {super.key, required this.stateFlow, required this.builder});
+  const StateFlowConsumer(
+      {super.key,
+      required this.stateFlow,
+      required this.listener,
+      required this.builder});
 
   @override
-  State<ViewModelBuilder<T>> createState() => _ViewModelBuilderState<T>();
+  State<StateFlowConsumer<T>> createState() => _StateFlowConsumerState<T>();
 }
 
-class _ViewModelBuilderState<T> extends State<ViewModelBuilder<T>> {
+class _StateFlowConsumerState<T> extends State<StateFlowConsumer<T>> {
   @override
   void initState() {
     super.initState();
@@ -30,12 +35,13 @@ class _ViewModelBuilderState<T> extends State<ViewModelBuilder<T>> {
 
   void _stateListener() {
     if (mounted) {
+      widget.listener(context, widget.stateFlow.value);
       setState(() {});
     }
   }
 
   @override
-  void didUpdateWidget(covariant ViewModelBuilder<T> oldWidget) {
+  void didUpdateWidget(covariant StateFlowConsumer<T> oldWidget) {
     if (widget.stateFlow != oldWidget.stateFlow) {
       _migrate(widget.stateFlow, oldWidget.stateFlow, _stateListener);
     }

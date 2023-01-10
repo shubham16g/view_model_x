@@ -1,26 +1,25 @@
 import 'package:flutter/widgets.dart';
-
 import 'flow.dart';
 
-/// [ViewModelConsumer] is used to rebuild the widgets inside of it and call the listener.
-/// This requires [stateFlow] to listen on, [builder] and [listener].
-/// Whenever [stateFlow]'s value changed/updated, [builder] will rebuild the widgets inside of it and [listener] will called.
-class ViewModelConsumer<T> extends StatefulWidget {
+/// [StateFlowListener] is used to catch the change/update value event of a [stateFlow].
+/// This requires [stateFlow], [listener] and [child].
+/// Whenever [stateFlow]'s value changed/updated , [listener] will called.
+class StateFlowListener<T> extends StatefulWidget {
   final StateFlow<T> stateFlow;
   final void Function(BuildContext context, T? value) listener;
-  final Widget Function(BuildContext context, T? value) builder;
+  final Widget child;
 
-  const ViewModelConsumer(
+  const StateFlowListener(
       {super.key,
       required this.stateFlow,
       required this.listener,
-      required this.builder});
+      required this.child});
 
   @override
-  State<ViewModelConsumer<T>> createState() => _ViewModelConsumerState<T>();
+  State<StateFlowListener<T>> createState() => _StateFlowListenerState<T>();
 }
 
-class _ViewModelConsumerState<T> extends State<ViewModelConsumer<T>> {
+class _StateFlowListenerState<T> extends State<StateFlowListener<T>> {
   @override
   void initState() {
     super.initState();
@@ -36,12 +35,11 @@ class _ViewModelConsumerState<T> extends State<ViewModelConsumer<T>> {
   void _stateListener() {
     if (mounted) {
       widget.listener(context, widget.stateFlow.value);
-      setState(() {});
     }
   }
 
   @override
-  void didUpdateWidget(covariant ViewModelConsumer<T> oldWidget) {
+  void didUpdateWidget(covariant StateFlowListener<T> oldWidget) {
     if (widget.stateFlow != oldWidget.stateFlow) {
       _migrate(widget.stateFlow, oldWidget.stateFlow, _stateListener);
     }
@@ -55,6 +53,6 @@ class _ViewModelConsumerState<T> extends State<ViewModelConsumer<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.stateFlow.value);
+    return widget.child;
   }
 }
