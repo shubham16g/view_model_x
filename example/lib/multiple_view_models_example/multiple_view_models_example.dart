@@ -45,7 +45,8 @@ class ContentPage extends StatelessWidget {
         },
         child: Center(
           child: StateFlowBuilder(
-              stateFlow: ViewModelProvider.of<FirstViewModel>(context).counterStateFlow,
+              stateFlow: ViewModelProvider.of<FirstViewModel>(context)
+                  .counterStateFlow,
               builder: (context, value) {
                 return Text(
                   "$value",
@@ -57,12 +58,12 @@ class ContentPage extends StatelessWidget {
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FloatingActionButton(
+          IconButton(
+            color: Theme.of(context).colorScheme.primary,
             onPressed: () {
-              ViewModelProvider.of<SecondViewModel>(context)
-                  .showPopupMessage();
+              ViewModelProvider.of<SecondViewModel>(context).showPopupMessage();
             },
-            child: const Icon(Icons.mail_outline),
+            icon: const Icon(Icons.mail_outline),
           ),
           const SizedBox(width: 12),
           FloatingActionButton(

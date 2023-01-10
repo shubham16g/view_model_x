@@ -6,7 +6,7 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyViewModel extends ViewModel {
+class CounterViewModel extends ViewModel {
   // initialize StateFlow
   final _counterStateFlow = MutableStateFlow<int>(1);
 
@@ -24,7 +24,7 @@ class MyViewModel extends ViewModel {
 
   void showPopupMessage() {
     // by emitting the value, listeners were notified
-    _messageSharedFlow.emit("Hello from MyViewModel!");
+    _messageSharedFlow.emit("Hello from CounterViewModel!");
   }
 
   @override
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: ViewModelProvider(
-        create: (context) => MyViewModel(),
+        create: (context) => CounterViewModel(),
           child: const HomePage()),
     );
   }
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
       // implement SharedFlowListener anywhere in code to listen for emits from sharedFlow
       body: SharedFlowListener(
         // pass your SharedFlow
-        sharedFlow: context.vm<MyViewModel>().messageSharedFlow,
+        sharedFlow: context.vm<CounterViewModel>().messageSharedFlow,
         listener: (context, value) {
           // get the emitted value. in this case <String>"Hello from ViewModel!"
           ScaffoldMessenger.of(context)
@@ -84,7 +84,7 @@ class HomePage extends StatelessWidget {
                 // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
                 child: StateFlowBuilder(
                     // pass your StateFlow
-                    stateFlow: context.vm<MyViewModel>().counterStateFlow,
+                    stateFlow: context.vm<CounterViewModel>().counterStateFlow,
                     builder: (context, value) {
                       return Text(
                         "$value",
@@ -99,18 +99,19 @@ class HomePage extends StatelessWidget {
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FloatingActionButton(
+          IconButton(
+            color: Theme.of(context).colorScheme.primary,
             onPressed: () {
-              // call the increment function which is inside MyViewModel
-              ViewModelProvider.of<MyViewModel>(context).showPopupMessage();
+              // call the showPopupMessage function which is inside CounterViewModel
+              ViewModelProvider.of<CounterViewModel>(context).showPopupMessage();
             },
-            child: const Icon(Icons.mail_outline),
+            icon: const Icon(Icons.mail_outline),
           ),
           const SizedBox(width: 12),
           FloatingActionButton(
             onPressed: () {
-              // call the increment function which is inside MyViewModel
-              ViewModelProvider.of<MyViewModel>(context).increment();
+              // call the increment function which is inside CounterViewModel
+              ViewModelProvider.of<CounterViewModel>(context).increment();
             },
             child: const Icon(Icons.add),
           ),

@@ -7,6 +7,9 @@ An Android similar state management package which helps to implement MVVM patter
 > **Note:** In Android, ViewModel have an special functionality of keeping the state on configuration change.
 > The ViewModel of this package is not for that as Flutter Project doesn't need it. It is only for separating the View Logic from UI.
 
+**🚀 LIVE DEMO OF EXAMPLE PROJECT:** https://shubham-gupta-16.github.io/view_model_x/
+
+
 ## Features
 
 - Simplified ☺️ State Management
