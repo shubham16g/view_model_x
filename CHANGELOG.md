@@ -4,6 +4,11 @@ Starts using provider internally
 - Multiple ViewModel Example added
 - Dependency added: provider 6.0.5
 
+## 0.2.1
+StateFlow updated
+- notifyOnSameValue added
+- github-pages setup for example
+
 ## 0.2.0
 Builder, Consumer, and Listener Fixed
 - Fixed Bug

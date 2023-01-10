@@ -25,6 +25,8 @@ class StateFlow<T> extends ChangeNotifier {
   /// get the current value.
   T get value => _value;
 
+  /// If [notifyOnSameValue] is set to false, whenever you call `stateFlow.value = newValue`
+  /// where newValue is same as current value, it will not notify listeners. by default it is set to true.
   StateFlow(this._value, {this.notifyOnSameValue = true});
 }
 
