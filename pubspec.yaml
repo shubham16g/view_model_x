@@ -1,6 +1,6 @@
 name: view_model_x
 description: An Android similar state management package (StateFlow and SharedFlow with ViewModel) which helps to implement MVVM pattern easily.
-version: 0.2.0
+version: 0.2.1
 homepage: https://github.com/shubham-gupta-16/view_model_x
 repository: https://github.com/shubham-gupta-16/view_model_x
 issue_tracker: https://github.com/shubham-gupta-16/view_model_x/issues

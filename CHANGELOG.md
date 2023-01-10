@@ -1,3 +1,8 @@
+## 0.2.1
+StateFlow updated
+- notifyOnSameValue added
+- github-pages setup for example
+
 ## 0.2.0
 Builder, Consumer, and Listener Fixed
 - Fixed Bug

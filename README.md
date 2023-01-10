@@ -126,9 +126,13 @@ class CustomViewModel extends ViewModel {
 > It is recommended to initialize private `MutableStateFlow` and create a public `StateFlow` getter of it.  
 
 ```dart
-final _myStateFlow = MutableStateFlow<int>(1);
+final _myStateFlow = MutableStateFlow<int>(1, notifyOnSameValue: true);
 StateFlow<int> get myStateFlow => _myStateFlow;
 ```
+
+
+Here, notifyOnSameValue is optional. If `notifyOnSameValue` is set to false, whenever you call `stateFlow.value = newValue`
+where newValue is same as current value, it will not notify listeners. by default it is set to true.
 
 **To change the value**
 
