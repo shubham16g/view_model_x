@@ -6,12 +6,12 @@ import 'view_model.dart';
 
 /// Mixin which allows `MultiViewModelProvider` to infer the types
 /// of multiple [ViewModelProvider]s.
-mixin ViewModelProviderSingleChildWidget on SingleChildWidget {}
+mixin ProviderSingleChildWidget on SingleChildWidget {}
 
 /// [ViewModelProvider] is used to wrap the widget with your custom [ViewModel].
 /// This requires [create] which accepts custom [ViewModel] and [child] Widget.
 class ViewModelProvider<T extends ViewModel> extends Provider<T>
-    with ViewModelProviderSingleChildWidget {
+    with ProviderSingleChildWidget {
   ViewModelProvider(
       {super.key, required super.create, super.lazy, super.child});
 

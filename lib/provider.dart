@@ -1,3 +1,2 @@
-export 'package:provider/provider.dart'
-    show ProviderNotFoundException, WatchContext, ReadContext, SelectContext;
-export './src/change_notifier_provider.dart';
+export 'package:provider/provider.dart' show ProviderNotFoundException;
+export './src/modified_provider.dart';
