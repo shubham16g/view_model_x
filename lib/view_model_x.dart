@@ -1,9 +1,5 @@
 library view_model_x;
 
-
-export 'package:provider/provider.dart'
-    show ProviderNotFoundException;
-
 export './src/flow.dart';
 export './src/view_model.dart';
 export './src/state_flow_builder.dart';

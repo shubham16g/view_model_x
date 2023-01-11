@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:provider/single_child_widget.dart';
+import 'package:nested/nested.dart';
 
 import 'view_model.dart';
 

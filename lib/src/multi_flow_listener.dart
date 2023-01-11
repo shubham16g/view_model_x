@@ -1,4 +1,4 @@
-import 'package:provider/provider.dart';
+import 'package:nested/nested.dart';
 import 'package:view_model_x/src/base_flow_listener_single_child_widget.dart';
 import 'shared_flow_listener.dart';
 import 'state_flow_listener.dart';
@@ -6,10 +6,10 @@ import 'state_flow_listener.dart';
 /// [MultiFlowListener] converts the [StateFlowListener] and [SharedFlowListener] list into a tree of nested widgets.
 /// As a result, the only advantage of using [MultiFlowListener] is improved
 /// readability due to the reduction in nesting and boilerplate.
-class MultiFlowListener extends MultiProvider {
+class MultiFlowListener extends Nested {
   MultiFlowListener(
       {super.key,
       required List<BaseFlowListenerSingleChildWidget> listeners,
       super.child})
-      : super(providers: listeners);
+      : super(children: listeners);
 }
