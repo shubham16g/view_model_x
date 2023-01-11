@@ -1,5 +1,5 @@
 import 'package:provider/provider.dart';
-import 'package:view_model_x/src/base_flow_listener.dart';
+import 'package:view_model_x/src/base_flow_listener_single_child_widget.dart';
 import 'shared_flow_listener.dart';
 import 'state_flow_listener.dart';
 
@@ -9,7 +9,7 @@ import 'state_flow_listener.dart';
 class MultiFlowListener extends MultiProvider {
   MultiFlowListener(
       {super.key,
-      required List<BaseFlowListener> listeners,
+      required List<BaseFlowListenerSingleChildWidget> listeners,
       super.child})
       : super(providers: listeners);
 }

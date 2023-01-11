@@ -1,19 +1,19 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/single_child_widget.dart';
 
-abstract class BaseFlowListener extends SingleChildStatefulWidget {
+abstract class BaseFlowListenerSingleChildWidget extends SingleChildStatefulWidget {
   final ChangeNotifier changeNotifier;
 
-  const BaseFlowListener({super.key, required this.changeNotifier, super.child});
+  const BaseFlowListenerSingleChildWidget({super.key, required this.changeNotifier, super.child});
 
   void onNotifyListener(BuildContext context);
 
 
   @override
-  SingleChildState<BaseFlowListener> createState() => _BaseFlowListenerState();
+  SingleChildState<BaseFlowListenerSingleChildWidget> createState() => _BaseFlowListenerState();
 }
 
-class _BaseFlowListenerState extends SingleChildState<BaseFlowListener> {
+class _BaseFlowListenerState extends SingleChildState<BaseFlowListenerSingleChildWidget> {
   @override
   void initState() {
     super.initState();
@@ -33,7 +33,7 @@ class _BaseFlowListenerState extends SingleChildState<BaseFlowListener> {
   }
 
   @override
-  void didUpdateWidget(covariant BaseFlowListener oldWidget) {
+  void didUpdateWidget(covariant BaseFlowListenerSingleChildWidget oldWidget) {
     if (widget.changeNotifier != oldWidget.changeNotifier) {
       _migrate(widget.changeNotifier, oldWidget.changeNotifier, _stateListener);
     }

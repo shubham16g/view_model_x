@@ -3,19 +3,19 @@ import 'package:provider/single_child_widget.dart';
 
 import 'flow.dart';
 
-abstract class BaseStateFlowBuilder<T> extends StatefulWidget {
+abstract class BaseStateFlowObserver<T> extends StatefulWidget {
   final StateFlow<T> stateFlow;
   final Widget Function(BuildContext context, T value) builder;
   final void Function(BuildContext context, T value)? listener;
 
-  const BaseStateFlowBuilder(
+  const BaseStateFlowObserver(
       {super.key, required this.stateFlow, required this.builder, this.listener});
 
   @override
-  State<BaseStateFlowBuilder<T>> createState() => _StateFlowBuilderState<T>();
+  State<BaseStateFlowObserver<T>> createState() => _StateFlowBuilderState<T>();
 }
 
-class _StateFlowBuilderState<T> extends State<BaseStateFlowBuilder<T>> {
+class _StateFlowBuilderState<T> extends State<BaseStateFlowObserver<T>> {
   @override
   void initState() {
     super.initState();
@@ -38,7 +38,7 @@ class _StateFlowBuilderState<T> extends State<BaseStateFlowBuilder<T>> {
   }
 
   @override
-  void didUpdateWidget(covariant BaseStateFlowBuilder<T> oldWidget) {
+  void didUpdateWidget(covariant BaseStateFlowObserver<T> oldWidget) {
     if (widget.stateFlow != oldWidget.stateFlow) {
       _migrate(widget.stateFlow, oldWidget.stateFlow, _stateListener);
     }
