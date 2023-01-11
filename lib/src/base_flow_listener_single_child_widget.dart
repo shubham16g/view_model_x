@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:nested/nested.dart';
+import 'package:provider/single_child_widget.dart';
 
 /// This abstract class allows to get notified when it's [ChangeNotifier] call `notifyListeners()`.
 /// It can also be be used with [MultiFlowListener]

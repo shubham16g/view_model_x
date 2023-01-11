@@ -16,6 +16,6 @@ class FirstViewModel extends ViewModel {
   void dispose() {
     // must dispose all flows
     _counterStateFlow.dispose();
-    debugPrint("ViewModelA disposed");
+    debugPrint("FirstViewModel disposed");
   }
 }

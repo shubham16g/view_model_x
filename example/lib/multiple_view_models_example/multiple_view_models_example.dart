@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:view_model_x/provider.dart';
 import 'package:view_model_x/view_model_x.dart';
 
 import 'view_model/first_view_model.dart';
@@ -9,7 +10,7 @@ class MultipleViewModelsExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiViewModelProvider(
+    return MultiProvider(
       providers: [
         ViewModelProvider(create: (context) => FirstViewModel()),
         ViewModelProvider(create: (context) => SecondViewModel()),
@@ -21,7 +22,7 @@ class MultipleViewModelsExample extends StatelessWidget {
 }
 
 class ContentPage extends StatelessWidget {
-  const ContentPage({Key? key}) : super(key: key);
+  const ContentPage({super.key});
 
   @override
   Widget build(BuildContext context) {
