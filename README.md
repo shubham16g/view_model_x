@@ -129,6 +129,27 @@ class CustomViewModel extends ViewModel {
 }
 ```
 
+### PostFrameCallback with ViewModel
+This will help to get `onPostFrameCallback` event inside `ViewModel` easily. 
+By using `PostFrameCallback`, we can go from:
+
+```dart
+WidgetsBinding.instance.addPostFrameCallback((_){
+  // do stuffs here
+})
+```
+to
+```dart
+class CustomViewModel extends ViewModel with PostFrameCallback {
+  //...
+  
+  @override
+  void onPostFrameCallback(Duration timestamp) {
+    // do stuffs here
+  }
+}
+```
+
 ### MutableStateFlow and StateFlow
 `MutableStateFlow` is inherited from `StateFlow`. It stores value and notify listeners whenever it changes. It can change/update the value.
 
@@ -173,7 +194,7 @@ SharedFlow<int> get mySharedFlow => _mySharedFlow;
 _myStateFlow.emit("Hello from ViewModel!"); // listeners were automatically notified
 ```
 
-## ViewModel Flutter Widgets
+## Integrate ViewModel Into Flutter Widget
 
 ### ViewModelProvider
 
@@ -231,6 +252,8 @@ OR
 ```dart
 context.vm<CustomViewModel>()
 ```
+
+## Builder, Listener, and Consumer Flutter Widgets 
 
 ### StateFlowBuilder
 

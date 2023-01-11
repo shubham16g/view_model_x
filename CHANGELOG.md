@@ -1,3 +1,8 @@
+##0.4.1
+PostFrameCallback added
+- ViewModel can access onPostFrameCallback event
+- ViewModel can access init event (initState)
+
 ## 0.4.0
 Provider removed, Nested added
 - MultiFlowListener added
