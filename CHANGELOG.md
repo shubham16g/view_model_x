@@ -1,3 +1,9 @@
+## 0.5.0
+Provider extras added (Major Changes)
+- Provider package added
+- MultiViewModelProvider is now MultiProvider
+- ChangeNotifierProvider added
+
 ## 0.4.1
 PostFrameCallback added
 - ViewModel can access onPostFrameCallback event

@@ -23,12 +23,13 @@ An Android similar state management package which helps to implement MVVM patter
 - SharedFlow, MutableSharedFlow 🌊
 - ViewModel (to separate the view logic from UI like Cubit)
 - ViewModelProvider
-- MultiViewModelProvider
 - StateFlowBuilder
 - StateFlowConsumer
 - StateFlowListener
 - SharedFlowListener
 - MultiFlowListener
+- ChangeNotifierProvider
+- MultiProvider
 
 ## Usage
 
@@ -207,41 +208,6 @@ ViewModelProvider(
   child: ChildWidget(),
 );
 ```
-### MultiViewModelProvider
-
-`MultiViewModelProvider` is a Flutter widget that merges multiple `ViewModelProvider` widgets into one.
-`MultiViewModelProvider` improves the readability and eliminates the need to nest multiple `ViewModelProvider`.
-By using `MultiViewModelProvider` we can go from:
-
-```dart
-ViewModelProvider(
-  create: (context) => ViewModelA(),
-  child: ViewModelProvider(
-    create: (context) => ViewModelB(),
-    child: ViewModelProvider(
-      create: (context) => ViewModelC(),
-      child: ChildA(),
-    )
-  )
-)
-```
-to
-```dart
-MultiViewModelProvider(
-  providers: [
-    ViewModelProvider(
-      create: (context) => ViewModelA(),
-    ),
-    ViewModelProvider(
-      create: (context) => ViewModelB(),
-    ),
-    ViewModelProvider(
-      create: (context) => ViewModelC(),
-    ),
-  ],
-  child: ChildA(),
-)
-```
 
 ### Get ViewModel instance inside Widget Tree
 
@@ -375,6 +341,70 @@ MultiFlowListener(
 )
 ```
 
+## Extra Provider
+This package also includes some of Provider components with some modification. These are:
+
+### ChangeNotifierProvider
+This will allows to wrap a widget around ChangeNotifier.
+
+```dart
+ChangeNotifierProvider(
+  create: (context) => CustomChangeNotifier(),
+  child: WidgetA(),
+)
+```
+
+To get the instance of `ChangeNotifier` or listen for `notifyListeners()`:
+```dart
+ChangeNotifierProvider.of<CustomChangeNotifier>(context, listen: true)
+```
+If `listen` is `true`, the Widget will rebuild on `notifyListeners()`. This can also be written in simplified way.
+If want to listen for `notifyListeners()`, use:
+```dart
+context.watch<CustomChangeNotifier>()
+```
+Or if want only instance, use:
+```dart
+context.read<CustomChangeNotifier>()
+```
+
+> **Note:** Here `context.watch` and `context.read` is modified from provider library. Here, type is restricted to ChangeNotifier.
+
+### MultiProvider
+`MultiProvider` is a Widget that merges multiple `ViewModelProvider` and `ChangeNotifierProvider` widgets into one.
+`MultiProvider` improves the readability and eliminates the need to nest multiple widgets.
+By using `MultiProvider` we can go from:
+
+```dart
+ViewModelProvider(
+  create: (context) => ViewModelA(),
+  child: ViewModelProvider(
+    create: (context) => ViewModelB(),
+    child: ChangeNotifierProvider(
+      create: (context) => ChageNotifierA(),
+      child: ChildA(),
+    )
+  )
+)
+```
+to
+```dart
+MultiProvider(
+  providers: [
+    ViewModelProvider(
+      create: (context) => ViewModelA(),
+    ),
+    ViewModelProvider(
+      create: (context) => ViewModelB(),
+    ),
+    ChageNotifierProvider(
+      create: (context) => ChageNotifierA(),
+    ),
+  ],
+  child: ChildA(),
+)
+```
+> **Note:** This MultiProvider is different from one in Provider package. This will only accepts `ViewModelProvider` and `ChangeNotifierProvider`.
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
