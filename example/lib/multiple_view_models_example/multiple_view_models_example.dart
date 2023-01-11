@@ -30,22 +30,35 @@ class ContentPage extends StatelessWidget {
           leading: const CloseButton(),
           titleSpacing: 0,
           title: const Text('Multiple ViewModels Example')),
-      body: SharedFlowListener(
-        sharedFlow: context.vm<SecondViewModel>().messageSharedFlow,
-        listener: (context, value) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(value)));
-        },
-        child: Center(
-          child: StateFlowBuilder(
-              stateFlow: ViewModelProvider.of<FirstViewModel>(context)
-                  .counterStateFlow,
-              builder: (context, value) {
-                return Text(
-                  "$value",
-                  style: const TextStyle(fontSize: 30),
-                );
+      body: MultiFlowListener(
+        listeners: [
+          SharedFlowListener(
+              sharedFlow: context.vm<SecondViewModel>().messageSharedFlow,
+              listener: (context, value) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(value)));
               }),
+          StateFlowListener(
+              stateFlow: context.vm<FirstViewModel>().counterStateFlow,
+              listener: (context, value) {
+                debugPrint(
+                    "MultiFlowListener > StateFlowListener > counterStateFlow value: $value");
+              })
+        ],
+        child: Center(
+          child: StateFlowConsumer(
+            stateFlow:
+                ViewModelProvider.of<FirstViewModel>(context).counterStateFlow,
+            builder: (context, value) {
+              return Text(
+                "$value",
+                style: const TextStyle(fontSize: 30),
+              );
+            },
+            listener: (BuildContext context, int value) {
+              debugPrint("counterStateFlow value: $value");
+            },
+          ),
         ),
       ),
       floatingActionButton: Row(
