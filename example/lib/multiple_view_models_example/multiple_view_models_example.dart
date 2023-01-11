@@ -20,20 +20,8 @@ class MultipleViewModelsExample extends StatelessWidget {
   }
 }
 
-class ContentPage extends StatefulWidget {
-  const ContentPage({Key? key}) : super(key: key);
-
-  @override
-  State<ContentPage> createState() => _ContentPageState();
-}
-
-class _ContentPageState extends State<ContentPage> {
-
-  @override
-  void initState() {
-    super.initState();
-    context.vm<SecondViewModel>().showPopupMessage();
-  }
+class ContentPage extends StatelessWidget {
+  const ContentPage({super.key});
 
   @override
   Widget build(BuildContext context) {

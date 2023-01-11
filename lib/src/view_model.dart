@@ -1,5 +1,15 @@
+import 'package:flutter/widgets.dart';
+
 /// [ViewModel] is an abstract class with an abstract method [dispose].
 abstract class ViewModel {
+  ViewModel() {
+    init();
+    if (this is PostFrameCallback) {
+      WidgetsBinding.instance.addPostFrameCallback(
+          (this as PostFrameCallback).onPostFrameCallback);
+    }
+  }
+
   void init() {}
 
   /// used to dispose all the flows.
