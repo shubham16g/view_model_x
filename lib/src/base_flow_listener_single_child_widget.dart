@@ -1,19 +1,24 @@
 import 'package:flutter/widgets.dart';
 import 'package:nested/nested.dart';
 
-abstract class BaseFlowListenerSingleChildWidget extends SingleChildStatefulWidget {
+/// This abstract class allows to get notified when it's [ChangeNotifier] call `notifyListeners()`.
+/// It can also be be used with [MultiFlowListener]
+abstract class BaseFlowListenerSingleChildWidget
+    extends SingleChildStatefulWidget {
   final ChangeNotifier changeNotifier;
 
-  const BaseFlowListenerSingleChildWidget({super.key, required this.changeNotifier, super.child});
+  const BaseFlowListenerSingleChildWidget(
+      {super.key, required this.changeNotifier, super.child});
 
   void onNotifyListener(BuildContext context);
 
-
   @override
-  SingleChildState<BaseFlowListenerSingleChildWidget> createState() => _BaseFlowListenerState();
+  SingleChildState<BaseFlowListenerSingleChildWidget> createState() =>
+      _BaseFlowListenerState();
 }
 
-class _BaseFlowListenerState extends SingleChildState<BaseFlowListenerSingleChildWidget> {
+class _BaseFlowListenerState
+    extends SingleChildState<BaseFlowListenerSingleChildWidget> {
   @override
   void initState() {
     super.initState();

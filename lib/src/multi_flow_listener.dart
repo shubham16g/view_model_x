@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:nested/nested.dart';
 import 'package:view_model_x/src/base_flow_listener_single_child_widget.dart';
 import 'shared_flow_listener.dart';
@@ -10,6 +11,6 @@ class MultiFlowListener extends Nested {
   MultiFlowListener(
       {super.key,
       required List<BaseFlowListenerSingleChildWidget> listeners,
-      super.child})
-      : super(children: listeners);
+      required Widget child})
+      : super(children: listeners, child: child);
 }

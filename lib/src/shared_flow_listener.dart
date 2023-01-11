@@ -10,7 +10,12 @@ class SharedFlowListener<T> extends BaseFlowListenerSingleChildWidget {
   final SharedFlow<T> sharedFlow;
   final void Function(BuildContext context, T value) listener;
 
-  const SharedFlowListener({super.key, required this.sharedFlow, required this.listener, super.child}) : super(changeNotifier: sharedFlow);
+  const SharedFlowListener(
+      {super.key,
+      required this.sharedFlow,
+      required this.listener,
+      super.child})
+      : super(changeNotifier: sharedFlow);
 
   @override
   void onNotifyListener(BuildContext context) {

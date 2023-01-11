@@ -13,8 +13,7 @@ class ViewModelProvider<T extends ViewModel> extends SingleChildStatefulWidget
     with ViewModelProviderSingleChildWidget {
   final T Function(BuildContext context) create;
 
-  const ViewModelProvider(
-      {super.key, required this.create, super.child});
+  const ViewModelProvider({super.key, required this.create, super.child});
 
   static F? maybeOf<F extends ViewModel>(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_VMP<F>>()?.viewModel;
