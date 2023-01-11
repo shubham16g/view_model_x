@@ -1,12 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
 
+import 'provider_single_child_widget.dart';
 import 'view_model.dart';
-
-/// Mixin which allows `MultiViewModelProvider` to infer the types
-/// of multiple [ViewModelProvider]s.
-mixin ProviderSingleChildWidget on SingleChildWidget {}
 
 /// [ViewModelProvider] is used to wrap the widget with your custom [ViewModel].
 /// This requires [create] which accepts custom [ViewModel] and [child] Widget.
