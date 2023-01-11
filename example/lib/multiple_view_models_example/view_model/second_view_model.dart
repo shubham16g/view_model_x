@@ -1,6 +1,6 @@
 import 'package:view_model_x/view_model_x.dart';
 
-class SecondViewModel extends ViewModel {
+class SecondViewModel extends ViewModel with PostFrameCallback {
   // initialize SharedFlow
   final _messageSharedFlow = MutableSharedFlow<String>();
 
@@ -14,5 +14,10 @@ class SecondViewModel extends ViewModel {
   @override
   void dispose() {
     _messageSharedFlow.dispose();
+  }
+
+  @override
+  void onPostFrameCallback(Duration timestamp) {
+    _messageSharedFlow.emit("onPostFrameCallback from SecondViewModel");
   }
 }
