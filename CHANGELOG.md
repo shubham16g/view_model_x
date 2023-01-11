@@ -1,4 +1,4 @@
-##0.4.1
+## 0.4.1
 PostFrameCallback added
 - ViewModel can access onPostFrameCallback event
 - ViewModel can access init event (initState)
