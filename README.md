@@ -12,7 +12,7 @@ An Android similar state management package which helps to implement MVVM patter
 
 ## Features
 
-- Simplified ☺️ State Management
+- Simplified 😎 State Management
 - Similar code pattern with an Android project 🟰
 - Easy for developers to migrate 🛩️ from Android to Flutter
 - Allows developer to work with both Android to Flutter projects with ease 🐥
@@ -23,10 +23,12 @@ An Android similar state management package which helps to implement MVVM patter
 - SharedFlow, MutableSharedFlow 🌊
 - ViewModel (to separate the view logic from UI like Cubit)
 - ViewModelProvider
+- MultiViewModelProvider
 - StateFlowBuilder
 - StateFlowConsumer
 - StateFlowListener
 - SharedFlowListener
+- MultiFlowListener
 
 ## Usage
 
@@ -295,9 +297,60 @@ SharedFlowListener(
 )
 ```
 
-## Coming soon
-- MultiFlowListener
-- MVVM Example
+
+### MultiFlowListener
+
+`MultiFlowListener` is a Flutter widget that merges multiple `SharedFlowListener` and `StateFlowListener` widgets into one.
+`MultiFlowListener` improves the readability and eliminates the need to nest multiple listeners.
+By using `MultiFlowListener` we can go from:
+
+```dart
+SharedFlowListener(
+  sharedFlow: context.vm<ViewModelA>().mySharedFlow,
+  listener: (context, value) {
+    // do stuff here based on value
+  },
+  child: StateFlowListener(
+    stateFlow: context.vm<ViewModelA>().myStateFlow,
+    listener: (context, value) {
+      // do stuff here based on value
+    },
+    child: SharedFlowListener(
+      sharedFlow: context.vm<ViewModelB>().anySharedFlow,
+      listener: (context, value) {
+        // do stuff here based on value
+      },
+      child: ChildA(),
+    )
+  )
+)
+```
+to
+```dart
+MultiFlowListener(
+  providers: [
+    SharedFlowListener(
+      sharedFlow: context.vm<ViewModelA>().mySharedFlow,
+      listener: (context, value) {
+        // do stuff here based on value
+      },
+    ),
+    StateFlowListener(
+      stateFlow: context.vm<ViewModelA>().myStateFlow,
+      listener: (context, value) {
+        // do stuff here based on value
+      },
+    ),
+    SharedFlowListener(
+      sharedFlow: context.vm<ViewModelB>().anySharedFlow,
+      listener: (context, value) {
+        // do stuff here based on value
+      },
+    ),
+  ],
+  child: ChildA(),
+)
+```
 
 ## Contributing
 
