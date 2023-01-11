@@ -10,11 +10,56 @@ mixin ViewModelProviderSingleChildWidget on SingleChildWidget {}
 
 /// [ViewModelProvider] is used to wrap the widget with your custom [ViewModel].
 /// This requires [create] which accepts custom [ViewModel] and [child] Widget.
+
+class _ViewStateWrapper<T extends ViewModel> extends SingleChildStatefulWidget {
+  const _ViewStateWrapper({super.key, super.child});
+
+  @override
+  State<_ViewStateWrapper<T>> createState() => _ViewStateWrapperState<T>();
+}
+
+class _ViewStateWrapperState<T extends ViewModel>
+    extends SingleChildState<_ViewStateWrapper<T>> {
+  @override
+  void initState() {
+    print("init");
+    super.initState();
+    final vm = ViewModelProvider.of<T>(context);
+    vm.init();
+    if (vm is PostFrameCallback) {
+      WidgetsBinding.instance
+          .addPostFrameCallback((vm as PostFrameCallback).onPostFrameCallback);
+    }
+  }
+
+  @override
+  Widget buildWithChild(BuildContext context, Widget? child) {
+    return child!;
+  }
+}
+
 class ViewModelProvider<T extends ViewModel> extends SingleChildStatelessWidget
     with ViewModelProviderSingleChildWidget {
-  final T Function(BuildContext context) create;
+  final T Function(BuildContext) _create;
+  final bool _lazy;
 
-  const ViewModelProvider({super.key, required this.create, super.child});
+  const ViewModelProvider(
+      {super.key,
+      required T Function(BuildContext) create,
+      bool lazy = false,
+      super.child})
+      : _create = create,
+        _lazy = lazy;
+
+  @override
+  Widget buildWithChild(BuildContext context, Widget? child) {
+    return Provider<T>(
+      create: _create,
+      dispose: (_, viewModel) => viewModel.dispose(),
+      lazy: _lazy,
+      child: _ViewStateWrapper<T>(child: child),
+    );
+  }
 
   /// [ViewModelProvider].[of] method allows to get the custom [ViewModel] from anywhere nested inside [ViewModelProvider]'s [child]
   static F of<F extends ViewModel>(BuildContext context) {
@@ -32,52 +77,7 @@ class ViewModelProvider<T extends ViewModel> extends SingleChildStatelessWidget
         ''');
     }
   }
-
-  @override
-  Widget buildWithChild(BuildContext context, Widget? child) {
-    assert(child != null, "child must not be null");
-    return Provider(create: create, child: child!);
-  }
 }
-
-// class _ViewModelProviderState<T extends ViewModel>
-//     extends SingleChildState<ViewModelProvider<T>> {
-//   late final T _viewModel;
-//
-//   @override
-//   void initState() {
-//     _viewModel = widget.create(context);
-//     super.initState();
-//     _viewModel.init();
-//     if (_viewModel is PostFrameCallback) {
-//       WidgetsBinding.instance.addPostFrameCallback(
-//           (_viewModel as PostFrameCallback).onPostFrameCallback);
-//     }
-//   }
-//
-//   @override
-//   void dispose() {
-//     _viewModel.dispose();
-//     super.dispose();
-//   }
-//
-//   @override
-//   Widget buildWithChild(BuildContext context, Widget? child) {
-//     assert(child != null, "child must not be null");
-//     return _VMP(viewModel: _viewModel, child: child!);
-//   }
-// }
-//
-// class _VMP<T extends ViewModel> extends InheritedWidget {
-//   final T viewModel;
-//
-//   const _VMP({super.key, required this.viewModel, required super.child});
-//
-//   @override
-//   bool updateShouldNotify(covariant _VMP oldWidget) {
-//     return viewModel != oldWidget.viewModel;
-//   }
-// }
 
 extension ViewModelExtension on BuildContext {
   /// [vm] is an [BuildContext] extension method.
