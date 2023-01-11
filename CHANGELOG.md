@@ -1,3 +1,10 @@
+## 0.4.0
+Provider removed, Nested added
+- MultiFlowListener added
+- Example improved
+- Documentation improved
+- Nullable Listener Bug fixed
+
 ## 0.3.0
 Starts using provider internally
 - MultiViewModelProvider added
