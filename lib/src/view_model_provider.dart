@@ -44,6 +44,11 @@ class _ViewModelProviderState<T extends ViewModel>
   void initState() {
     _viewModel = widget.create(context);
     super.initState();
+    _viewModel.init();
+    if (_viewModel is PostFrameCallback) {
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_viewModel as PostFrameCallback).onPostFrameCallback);
+    }
   }
 
   @override
