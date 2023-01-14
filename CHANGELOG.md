@@ -1,3 +1,9 @@
+## 0.5.1
+Easy to implement ViewModel and example improved
+- ViewModelStatelessWidget added
+- PostFrameCallback example added
+- viewModelStatelessWidget example added
+
 ## 0.5.0
 Provider extras added (Major Changes)
 - Provider package added

@@ -9,7 +9,11 @@ import 'view_model.dart';
 class ViewModelProvider<T extends ViewModel> extends Provider<T>
     with ProviderSingleChildWidget {
   ViewModelProvider(
-      {super.key, required super.create, super.lazy, super.child});
+      {super.key,
+      required super.create,
+      super.lazy,
+      super.builder,
+      super.child});
 
   /// [ViewModelProvider].[of] method allows to get the custom [ViewModel] from anywhere nested inside [ViewModelProvider]'s [child]
   static F of<F extends ViewModel>(BuildContext context) {

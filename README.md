@@ -23,6 +23,7 @@ An Android similar state management package which helps to implement MVVM patter
 - SharedFlow, MutableSharedFlow 🌊
 - ViewModel (to separate the view logic from UI like Cubit)
 - ViewModelProvider
+- ViewModelStatelessWidget
 - StateFlowBuilder
 - StateFlowConsumer
 - StateFlowListener
@@ -131,15 +132,8 @@ class CustomViewModel extends ViewModel {
 ```
 
 ### PostFrameCallback with ViewModel
-This will help to get `onPostFrameCallback` event inside `ViewModel` easily. 
-By using `PostFrameCallback`, we can go from:
+Using `PostFrameCallback` with `ViewModel` helps to get `onPostFrameCallback` event inside `ViewModel` easily.
 
-```dart
-WidgetsBinding.instance.addPostFrameCallback((_){
-  // do stuffs here
-})
-```
-to
 ```dart
 class CustomViewModel extends ViewModel with PostFrameCallback {
   //...
@@ -219,6 +213,39 @@ OR
 context.vm<CustomViewModel>()
 ```
 
+### ViewModelStatelessWidget
+**ViewModelStatelessWidget** helps to integrate `ViewModel` into `StatelessWidget` easily. Using this, we can go from:
+```dart
+class MyPage extends StatelessWidget {
+const CounterPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelProvider(
+      create: (context) => MyViewModel(), // provide your custom viewModel
+      child: Scaffold(
+        // content here
+      ),
+    );
+  }
+}
+```
+to:
+```dart
+class MyPage extends ViewModelStatelessWidget<MyViewModel> {
+const CounterPage({super.key});
+
+  @override
+  MyViewModel createViewModel(BuildContext context) => MyViewModel();
+
+  @override
+  Widget buildWithViewModel(BuildContext context, MyViewModel viewModel) {
+    return Scaffold(
+      // content here. For ViewModel instance, use `viewModel`
+    );
+  }
+}
+```
 ## Builder, Listener, and Consumer Flutter Widgets 
 
 ### StateFlowBuilder
