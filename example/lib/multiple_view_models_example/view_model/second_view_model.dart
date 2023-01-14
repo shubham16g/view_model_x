@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:view_model_x/view_model_x.dart';
 
-class SecondViewModel extends ViewModel with PostFrameCallback {
+class SecondViewModel extends ViewModel {
   // initialize SharedFlow
   final _messageSharedFlow = MutableSharedFlow<String>();
 
@@ -16,11 +16,6 @@ class SecondViewModel extends ViewModel with PostFrameCallback {
   @override
   void init() {
     debugPrint("init inside vm");
-  }
-
-  @override
-  void onPostFrameCallback(Duration timestamp) {
-    _messageSharedFlow.emit("onPostFrameCallback from SecondViewModel");
   }
 
   @override
