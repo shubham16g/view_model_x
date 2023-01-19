@@ -1,3 +1,8 @@
+## 0.5.2
+Fixed Bugs and make package simpler
+- ViewModelStatelessWidget removed
+- Fixed StateFlow notifyOnSameValue
+
 ## 0.5.1
 Easy to implement ViewModel and example improved
 - ViewModelStatelessWidget added
