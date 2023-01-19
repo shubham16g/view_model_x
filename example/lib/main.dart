@@ -51,25 +51,23 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: ViewModelProvider(
+          create: (context) => CounterViewModel(), child: const HomePage()),
     );
   }
 }
 
-class HomePage extends ViewModelStatelessWidget<CounterViewModel> {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
-  CounterViewModel createViewModel(BuildContext context) => CounterViewModel();
-
-  @override
-  Widget buildWithViewModel(BuildContext context, CounterViewModel viewModel) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('ViewModel Example')),
       // implement SharedFlowListener anywhere in code to listen for emits from sharedFlow
       body: SharedFlowListener(
         // pass your SharedFlow
-        sharedFlow: viewModel.messageSharedFlow,
+        sharedFlow: context.vm<CounterViewModel>().messageSharedFlow,
         listener: (context, value) {
           // get the emitted value. in this case <String>"Hello from ViewModel!"
           ScaffoldMessenger.of(context)
@@ -84,7 +82,8 @@ class HomePage extends ViewModelStatelessWidget<CounterViewModel> {
                 // implement ViewModelBuilder to rebuild Text on StateFlow value changed/updated
                 child: StateFlowBuilder(
                     // pass your StateFlow
-                    stateFlow: viewModel.counterStateFlow,
+                    stateFlow: ViewModelProvider.of<CounterViewModel>(context)
+                        .counterStateFlow,
                     builder: (context, value) {
                       return Text(
                         "$value",
@@ -103,7 +102,8 @@ class HomePage extends ViewModelStatelessWidget<CounterViewModel> {
             color: Theme.of(context).colorScheme.primary,
             onPressed: () {
               // call the showPopupMessage function which is inside CounterViewModel
-              viewModel.showPopupMessage();
+              ViewModelProvider.of<CounterViewModel>(context)
+                  .showPopupMessage();
             },
             icon: const Icon(Icons.mail_outline),
           ),
@@ -111,7 +111,7 @@ class HomePage extends ViewModelStatelessWidget<CounterViewModel> {
           FloatingActionButton(
             onPressed: () {
               // call the increment function which is inside CounterViewModel
-              viewModel.increment();
+              context.vm<CounterViewModel>().increment();
             },
             child: const Icon(Icons.add),
           ),

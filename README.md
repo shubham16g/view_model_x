@@ -23,7 +23,6 @@ An Android similar state management package which helps to implement MVVM patter
 - SharedFlow, MutableSharedFlow 🌊
 - ViewModel (to separate the view logic from UI like Cubit)
 - ViewModelProvider
-- ViewModelStatelessWidget
 - StateFlowBuilder
 - StateFlowConsumer
 - StateFlowListener
@@ -213,39 +212,6 @@ OR
 context.vm<CustomViewModel>()
 ```
 
-### ViewModelStatelessWidget
-**ViewModelStatelessWidget** helps to integrate `ViewModel` into `StatelessWidget` easily. Using this, we can go from:
-```dart
-class MyPage extends StatelessWidget {
-const CounterPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ViewModelProvider(
-      create: (context) => MyViewModel(), // provide your custom viewModel
-      child: Scaffold(
-        // content here
-      ),
-    );
-  }
-}
-```
-to:
-```dart
-class MyPage extends ViewModelStatelessWidget<MyViewModel> {
-const CounterPage({super.key});
-
-  @override
-  MyViewModel createViewModel(BuildContext context) => MyViewModel();
-
-  @override
-  Widget buildWithViewModel(BuildContext context, MyViewModel viewModel) {
-    return Scaffold(
-      // content here. For ViewModel instance, use `viewModel`
-    );
-  }
-}
-```
 ## Builder, Listener, and Consumer Flutter Widgets 
 
 ### StateFlowBuilder

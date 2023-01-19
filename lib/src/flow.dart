@@ -32,7 +32,7 @@ class StateFlow<T> extends ChangeNotifier {
 
 /// [MutableStateFlow] is inherited from [StateFlow]. It can change/update the value.
 class MutableStateFlow<T> extends StateFlow<T> {
-  MutableStateFlow(super.value);
+  MutableStateFlow(super.value, {super.notifyOnSameValue});
 
   /// change the value and notify listeners
   set value(T value) {

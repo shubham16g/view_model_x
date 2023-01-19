@@ -8,4 +8,3 @@ export './src/state_flow_listener.dart';
 export './src/shared_flow_listener.dart';
 export './src/view_model_provider.dart';
 export './src/multi_flow_listener.dart';
-export './src/view_model_stateless_widget.dart';
