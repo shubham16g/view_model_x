@@ -1,0 +1,12 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+*'
+
+jobs:
+  publish:
+    uses: dart-lang/setup-dart/blob/main/.github/workflows/publish.yml
+    # with:
+    #   working-directory: path/to/package/within/repository

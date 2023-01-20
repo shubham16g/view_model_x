@@ -1,3 +1,8 @@
+## 0.5.3
+Fixed ViewModel Dispose major bug
+- ViewModel not disposing fixed
+- Responsive Example added
+
 ## 0.5.2
 Fixed Bugs and make package simpler
 - ViewModelStatelessWidget removed

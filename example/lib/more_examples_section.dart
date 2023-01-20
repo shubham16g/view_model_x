@@ -1,10 +1,12 @@
 import 'package:example/multiple_view_models_example/multiple_view_models_example.dart';
 import 'package:example/post_frame_callback_example/post_frame_callback_example.dart';
+import 'package:example/responsive_example/responsive_example.dart';
 import 'package:flutter/material.dart';
 
 final _moreExamples = {
   "Multiple ViewModels Example": const MultipleViewModelsExample(),
   "PostFrameCallback Example": const PostFrameCallbackExample(),
+  "Responsive Example": const ResponsiveExample(),
 };
 
 class MoreExamplesSection extends StatelessWidget {
