@@ -29,10 +29,15 @@ class FirstSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider(
-      create: (c)=> FirstViewModel(),
-      builder: (ctx,v)=>Container(
+      create: (c) => FirstViewModel(),
+      builder: (ctx, v) => Container(
         color: Colors.green,
-        child: Center(child: Text(ViewModelProvider.of<FirstViewModel>(ctx).counterStateFlow.value.toString()),),
+        child: Center(
+          child: Text(ViewModelProvider.of<FirstViewModel>(ctx)
+              .counterStateFlow
+              .value
+              .toString()),
+        ),
       ),
     );
   }

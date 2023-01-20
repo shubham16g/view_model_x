@@ -15,8 +15,8 @@ class VMP<T extends ViewModel> extends SingleChildStatelessWidget {
     // TODO: implement buildWithChild
     throw UnimplementedError();
   }
-
 }
+
 class ViewModelProvider<T extends ViewModel> extends Provider<T>
     with ProviderSingleChildWidget {
   ViewModelProvider(
@@ -24,9 +24,10 @@ class ViewModelProvider<T extends ViewModel> extends Provider<T>
       required super.create,
       super.lazy,
       super.builder,
-      super.child}) : super(dispose: _dispose);
+      super.child})
+      : super(dispose: _dispose);
 
-  static void _dispose<T extends ViewModel>(BuildContext context, T viewModel){
+  static void _dispose<T extends ViewModel>(BuildContext context, T viewModel) {
     debugPrint('provider dispose');
     viewModel.dispose();
   }
