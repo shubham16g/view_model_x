@@ -39,7 +39,6 @@ class StateFlow<T> extends ChangeNotifier {
 
   final Map<BuildContext, bool> contexts = {};
 
-
   @override
   void dispose() {
     contexts.clear();
