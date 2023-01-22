@@ -1,22 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
 
 import 'provider_single_child_widget.dart';
 import 'view_model.dart';
 
 /// [ViewModelProvider] is used to wrap the widget with your custom [ViewModel].
 /// This requires [create] which accepts custom [ViewModel] and [child] Widget.
-class VMP<T extends ViewModel> extends SingleChildStatelessWidget {
-  const VMP({super.key, super.child});
-
-  @override
-  Widget buildWithChild(BuildContext context, Widget? child) {
-    // TODO: implement buildWithChild
-    throw UnimplementedError();
-  }
-}
-
 class ViewModelProvider<T extends ViewModel> extends Provider<T>
     with ProviderSingleChildWidget {
   ViewModelProvider(
@@ -28,7 +17,6 @@ class ViewModelProvider<T extends ViewModel> extends Provider<T>
       : super(dispose: _dispose);
 
   static void _dispose<T extends ViewModel>(BuildContext context, T viewModel) {
-    debugPrint('provider dispose');
     viewModel.dispose();
   }
 

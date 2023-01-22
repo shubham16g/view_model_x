@@ -27,7 +27,36 @@ class StateFlow<T> extends ChangeNotifier {
 
   /// If [notifyOnSameValue] is set to false, whenever you call `stateFlow.value = newValue`
   /// where newValue is same as current value, it will not notify listeners. by default it is set to true.
-  StateFlow(this._value, {this.notifyOnSameValue = true});
+  StateFlow(this._value, {this.notifyOnSameValue = true}) {
+    addListener(_defaultListener);
+  }
+
+  /// watch is experimental for now, it will rebuild the widget of context when value is changed or updated.
+  T watch(BuildContext context) {
+    contexts[context] = true;
+    return _value;
+  }
+
+  final Map<BuildContext, bool> contexts = {};
+
+
+  @override
+  void dispose() {
+    contexts.clear();
+    removeListener(_defaultListener);
+    super.dispose();
+  }
+
+  void _defaultListener() {
+    for (final context in contexts.keys) {
+      try {
+        if (context is Element) {
+          (context).markNeedsBuild();
+        }
+      } catch (_) {}
+    }
+    contexts.clear();
+  }
 }
 
 /// [MutableStateFlow] is inherited from [StateFlow]. It can change/update the value.

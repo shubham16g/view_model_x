@@ -228,6 +228,14 @@ StateFlowBuilder(
 )
 ```
 
+
+### Experimental `StateFlow.watch(BuildContext)`
+We can use `watch` with any `StateFlow` which observe the value change and update the ui. 
+This is similar to Provider's `context.watch<MyChangeNotifier>()`. 
+```dart
+final value = context.vm<CustomViewModel>().myStateFlow.watch(context);
+```
+
 ### StateFlowConsumer
 
 `StateFlowConsumer` is used to rebuild the widgets inside of it and call the listener.
