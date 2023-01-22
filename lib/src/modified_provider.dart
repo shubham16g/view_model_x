@@ -12,6 +12,18 @@ class ChangeNotifierProvider<T extends ChangeNotifier>
   ChangeNotifierProvider(
       {super.key, required super.create, super.child, super.lazy});
 
+  ChangeNotifierProvider.value({
+    Key? key,
+    required T value,
+    TransitionBuilder? builder,
+    Widget? child,
+  }) : super.value(
+          key: key,
+          builder: builder,
+          value: value,
+          child: child,
+        );
+
   static F of<F extends ChangeNotifier>(BuildContext context,
           {bool listen = true}) =>
       p.Provider.of<F>(context, listen: true);

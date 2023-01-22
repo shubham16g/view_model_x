@@ -1,5 +1,11 @@
+## 0.5.4
+StateFlow watch added in experimental
+- Added ChangeNotifierProvider.value
+- Removed VMP bug
+- stateFlow.watch(context) added in experimental
+
 ## 0.5.3
-Fixed ViewModel Dispose major bug
+Fixed ViewModel dispose major bug
 - ViewModel not disposing fixed
 - Responsive Example added
 
