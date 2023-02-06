@@ -1,15 +1,12 @@
 import 'package:flutter/widgets.dart';
 
-/// [SharedFlow] is used to send data to the listeners.
+/// [SharedFlow] is used to send data to the listeners by emitting the value
 class SharedFlow<T> extends ChangeNotifier {
   T? _value;
 
   /// get the last emitted value
   T? get lastEmitValue => _value;
-}
 
-/// [MutableSharedFlow] is inherited from [SharedFlow]. It can emit the value.
-class MutableSharedFlow<T> extends SharedFlow<T> {
   /// emit and notify listeners
   void emit(T data) {
     _value = data;
@@ -17,7 +14,7 @@ class MutableSharedFlow<T> extends SharedFlow<T> {
   }
 }
 
-/// [StateFlow] stores value and notify listeners whenever it changes.
+/// [StateFlow] stores value and notify listeners whenever it changes or updated.
 class StateFlow<T> extends ChangeNotifier {
   T _value;
   final bool notifyOnSameValue;
@@ -56,11 +53,6 @@ class StateFlow<T> extends ChangeNotifier {
     }
     contexts.clear();
   }
-}
-
-/// [MutableStateFlow] is inherited from [StateFlow]. It can change/update the value.
-class MutableStateFlow<T> extends StateFlow<T> {
-  MutableStateFlow(super.value, {super.notifyOnSameValue});
 
   /// change the value and notify listeners
   set value(T value) {

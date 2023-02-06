@@ -1,3 +1,9 @@
+## 0.6.0
+Easier to implement StateFlow and SharedFlow
+- MutableStateFlow removed
+- MutableSharedFlow removed
+- ViewModel's `dispose()` is now optional 
+
 ## 0.5.4
 StateFlow watch added in experimental
 - Added ChangeNotifierProvider.value
