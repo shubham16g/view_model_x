@@ -13,7 +13,7 @@ abstract class ViewModel {
   void init() {}
 
   /// used to dispose all the flows.
-  void dispose();
+  void dispose() {}
 }
 
 /// This will help to easily implement PostFrameCallback event into ViewModel.

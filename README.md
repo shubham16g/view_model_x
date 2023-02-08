@@ -19,8 +19,8 @@ An Android similar state management package which helps to implement MVVM patter
 - Easy to implement MVVM pattern 💪
 
 ## Package Components
-- StateFlow, MutableStateFlow (equivalent to LiveData) ⛵
-- SharedFlow, MutableSharedFlow 🌊
+- StateFlow (equivalent to LiveData) ⛵
+- SharedFlow 🌊
 - ViewModel (to separate the view logic from UI like Cubit)
 - ViewModelProvider
 - StateFlowBuilder
@@ -37,22 +37,20 @@ An Android similar state management package which helps to implement MVVM patter
 
 ```dart
 class CounterViewModel extends ViewModel {
-  // initialize MutableStateFlow with initial value 1
-  final _counterStateFlow = MutableStateFlow<int>(1);
-
-  StateFlow<int> get counterStateFlow => _counterStateFlow;
+  // initialize StateFlow with initial value 1
+  final counterStateFlow = StateFlow<int>(1);
 
   // you can also define more the one StateFlow or SharedFlow inside any ViewModel
 
   void increment() {
     // by changing the value, listeners notified
-    _counterStateFlow.value = _counterStateFlow.value + 1;
+    counterStateFlow.value = counterStateFlow.value + 1;
   }
 
   @override
   void dispose() {
     // must dispose all the StateFlows and SharedFlows
-    _counterStateFlow.dispose();
+    counterStateFlow.dispose();
   }
 }
 ```
@@ -116,16 +114,14 @@ Don't forget to dispose all flows inside `dispose` method of `ViewModel`.
 ```dart
 class CustomViewModel extends ViewModel {
   // initialize StateFlow
-  final _myStateFlow = MutableStateFlow<int>(1);
-
-  StateFlow<int> get myStateFlow => _myStateFlow;
+  final myStateFlow = StateFlow<int>(1);
 
   // view related logic here
 
   @override
   void dispose() {
     // must dispose all flows
-    _myStateFlow.dispose();
+    myStateFlow.dispose();
   }
 }
 ```
@@ -144,16 +140,12 @@ class CustomViewModel extends ViewModel with PostFrameCallback {
 }
 ```
 
-### MutableStateFlow and StateFlow
-`MutableStateFlow` is inherited from `StateFlow`. It stores value and notify listeners whenever it changes. It can change/update the value.
-
-> It is recommended to initialize private `MutableStateFlow` and create a public `StateFlow` getter of it.  
+### StateFlow
+It stores value and notify listeners whenever it changes. It can change/update the value.
 
 ```dart
-final _myStateFlow = MutableStateFlow<int>(1, notifyOnSameValue: true);
-StateFlow<int> get myStateFlow => _myStateFlow;
+final myStateFlow = StateFlow<int>(1, notifyOnSameValue: true);
 ```
-
 
 Here, notifyOnSameValue is optional. If `notifyOnSameValue` is set to false, whenever you call `stateFlow.value = newValue`
 where newValue is same as current value, it will not notify listeners. by default it is set to true.
@@ -161,31 +153,28 @@ where newValue is same as current value, it will not notify listeners. by defaul
 **To change the value**
 
 ```dart
-_myStateFlow.value = 5; // listeners were automatically notified
+myStateFlow.value = 5; // listeners were automatically notified
 ```
 
 **To update the value**
 
 ```dart
-_listStateFlow.update((value) {
+listStateFlow.update((value) {
   value.add(obj);
 }); // listeners were automatically notified
 ```
 
-### MutableSharedFlow and SharedFlow
-`MutableSharedFlow` is inherited from `SharedFlow`. It is used to send data to the listeners. It can emit the value.
-
-> It is recommended to initialize private `MutableSharedFlow` and create a public `SharedFlow` getter of it.
+### SharedFlow
+It is used to send data to the listeners. It can emit the value.
 
 ```dart
-final _mySharedFlow = MutableSharedFlow<String>();
-SharedFlow<int> get mySharedFlow => _mySharedFlow;
+final mySharedFlow = SharedFlow<String>();
 ```
 
 **To emit the value**
 
 ```dart
-_myStateFlow.emit("Hello from ViewModel!"); // listeners were automatically notified
+myStateFlow.emit("Hello from ViewModel!"); // listeners were automatically notified
 ```
 
 ## Integrate ViewModel Into Flutter Widget

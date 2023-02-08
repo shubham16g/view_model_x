@@ -8,30 +8,26 @@ void main() {
 
 class CounterViewModel extends ViewModel {
   // initialize StateFlow
-  final _counterStateFlow = MutableStateFlow<int>(1);
-
-  StateFlow<int> get counterStateFlow => _counterStateFlow;
+  final counterStateFlow = StateFlow<int>(1);
 
   // initialize SharedFlow
-  final _messageSharedFlow = MutableSharedFlow<String>();
-
-  SharedFlow<String> get messageSharedFlow => _messageSharedFlow;
+  final messageSharedFlow = SharedFlow<String>();
 
   void increment() {
     // by changing the value, listeners were notified
-    _counterStateFlow.value = _counterStateFlow.value + 1;
+    counterStateFlow.value = counterStateFlow.value + 1;
   }
 
   void showPopupMessage() {
     // by emitting the value, listeners were notified
-    _messageSharedFlow.emit("Hello from CounterViewModel!");
+    messageSharedFlow.emit("Hello from CounterViewModel!");
   }
 
   @override
   void dispose() {
     // must dispose all flows
-    _counterStateFlow.dispose();
-    _messageSharedFlow.dispose();
+    counterStateFlow.dispose();
+    messageSharedFlow.dispose();
   }
 }
 
@@ -49,7 +45,7 @@ class MyApp extends StatelessWidget {
           color: Colors.blue.shade100,
         ),
         useMaterial3: true,
-        primarySwatch: Colors.blue,
+        colorSchemeSeed: Colors.blue,
       ),
       home: ViewModelProvider(
           create: (context) => CounterViewModel(), child: const HomePage()),
