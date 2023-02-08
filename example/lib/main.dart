@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           color: Colors.blue.shade100,
         ),
         useMaterial3: true,
-        primarySwatch: Colors.blue,
+        colorSchemeSeed: Colors.blue,
       ),
       home: ViewModelProvider(
           create: (context) => CounterViewModel(), child: const HomePage()),
