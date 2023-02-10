@@ -1,14 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:view_model_x/src/flow.dart';
 
-/// This abstract class allows to get notified when it's [ChangeNotifier] call `notifyListeners()`.
+/// This abstract class allows to get notified when it's [BaseFlow] call `notifyListeners()`.
 /// It can also be be used with [MultiFlowListener]
 abstract class BaseFlowListenerSingleChildWidget
     extends SingleChildStatefulWidget {
-  final ChangeNotifier changeNotifier;
+  final BaseFlow baseFlow;
 
   const BaseFlowListenerSingleChildWidget(
-      {super.key, required this.changeNotifier, super.child});
+      {super.key, required this.baseFlow, super.child});
 
   void onNotifyListener(BuildContext context);
 
@@ -22,12 +23,12 @@ class _BaseFlowListenerState
   @override
   void initState() {
     super.initState();
-    widget.changeNotifier.addListener(_stateListener);
+    widget.baseFlow.addListener(_stateListener);
   }
 
   @override
   void dispose() {
-    widget.changeNotifier.removeListener(_stateListener);
+    widget.baseFlow.removeListener(_stateListener);
     super.dispose();
   }
 
@@ -39,8 +40,8 @@ class _BaseFlowListenerState
 
   @override
   void didUpdateWidget(covariant BaseFlowListenerSingleChildWidget oldWidget) {
-    if (widget.changeNotifier != oldWidget.changeNotifier) {
-      _migrate(widget.changeNotifier, oldWidget.changeNotifier, _stateListener);
+    if (widget.baseFlow != oldWidget.baseFlow) {
+      _migrate(widget.baseFlow, oldWidget.baseFlow, _stateListener);
     }
     super.didUpdateWidget(oldWidget);
   }

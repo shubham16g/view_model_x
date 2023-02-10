@@ -3,7 +3,7 @@ import 'package:view_model_x/view_model_x.dart';
 
 class FirstViewModel extends ViewModel {
   // initialize StateFlow
-  get counterStateFlow => stateFlow("counter", 1);
+  StateFlow<int> get counterStateFlow => vmStateFlow("counter", 1);
 
   void increment() {
     // by changing the value, listeners were notified

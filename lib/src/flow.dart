@@ -2,8 +2,18 @@ import 'package:flutter/widgets.dart';
 import 'package:view_model_x/src/view_model.dart';
 import 'package:view_model_x/src/view_model_provider.dart';
 
+class BaseFlow extends ChangeNotifier {
+
+  
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+}
+
 /// [SharedFlow] is used to send data to the listeners by emitting the value
-class SharedFlow<T> extends ChangeNotifier {
+class SharedFlow<T> extends BaseFlow {
   T? _value;
 
   /// get the last emitted value
@@ -17,7 +27,7 @@ class SharedFlow<T> extends ChangeNotifier {
 }
 
 /// [StateFlow] stores value and notify listeners whenever it changes or updated.
-class StateFlow<T> extends ChangeNotifier {
+class StateFlow<T> extends BaseFlow {
   T _value;
   final bool notifyOnSameValue;
 

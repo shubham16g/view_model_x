@@ -11,7 +11,7 @@ class StateFlowListener<T> extends BaseFlowListenerSingleChildWidget {
 
   const StateFlowListener(
       {super.key, required this.stateFlow, required this.listener, super.child})
-      : super(changeNotifier: stateFlow);
+      : super(baseFlow: stateFlow);
 
   @override
   void onNotifyListener(BuildContext context) {

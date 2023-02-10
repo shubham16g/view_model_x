@@ -15,7 +15,7 @@ class SharedFlowListener<T> extends BaseFlowListenerSingleChildWidget {
       required this.sharedFlow,
       required this.listener,
       super.child})
-      : super(changeNotifier: sharedFlow);
+      : super(baseFlow: sharedFlow);
 
   @override
   void onNotifyListener(BuildContext context) {
