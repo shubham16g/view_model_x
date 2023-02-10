@@ -5,7 +5,7 @@ import 'flow.dart';
 /// This abstract class will rebuild the [builder] whenever its [stateFlow] value changed or updated.
 /// It also have nullable [listener] which can detect the event.
 abstract class BaseStateFlowObserver<T> extends StatefulWidget {
-  final StateFlow<T> stateFlow;
+  final BaseStateFlow<T> stateFlow;
   final Widget Function(BuildContext context, T value) builder;
   final void Function(BuildContext context, T value)? listener;
 

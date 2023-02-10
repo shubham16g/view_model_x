@@ -7,7 +7,7 @@ import 'flow.dart';
 /// Whenever [sharedFlow] emits a value, [listener] will called.
 
 class SharedFlowListener<T> extends BaseFlowListenerSingleChildWidget {
-  final SharedFlow<T> sharedFlow;
+  final BaseSharedFlow<T> sharedFlow;
   final void Function(BuildContext context, T value) listener;
 
   const SharedFlowListener(
@@ -15,7 +15,7 @@ class SharedFlowListener<T> extends BaseFlowListenerSingleChildWidget {
       required this.sharedFlow,
       required this.listener,
       super.child})
-      : super(baseFlow: sharedFlow);
+      : super(listenable: sharedFlow);
 
   @override
   void onNotifyListener(BuildContext context) {

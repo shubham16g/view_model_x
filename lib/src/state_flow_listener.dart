@@ -6,12 +6,12 @@ import 'flow.dart';
 /// This requires [stateFlow], [listener] and [child].
 /// Whenever [stateFlow]'s value changed/updated , [listener] will called.
 class StateFlowListener<T> extends BaseFlowListenerSingleChildWidget {
-  final StateFlow<T> stateFlow;
+  final BaseStateFlow<T> stateFlow;
   final void Function(BuildContext context, T value) listener;
 
   const StateFlowListener(
       {super.key, required this.stateFlow, required this.listener, super.child})
-      : super(baseFlow: stateFlow);
+      : super(listenable: stateFlow);
 
   @override
   void onNotifyListener(BuildContext context) {

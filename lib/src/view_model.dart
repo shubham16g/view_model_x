@@ -15,12 +15,19 @@ abstract class ViewModel {
   }
 
 
-  final map = HashMap<String, BaseFlow>();
+  final _flowMap = HashMap<String, ChangeNotifier>();
 
-  StateFlow<T> vmStateFlow<T>(String id, T value){
-    if (map.containsKey(id)) return map[id] as StateFlow<T>;
-    final sf = StateFlow(value);
-    map[id] = sf;
+  BaseStateFlow<T> stateFlow<T>(String id, T value){
+    if (_flowMap.containsKey(id)) return _flowMap[id] as BaseStateFlow<T>;
+    final sf = StateFlow<T>(value);
+    _flowMap[id] = sf;
+    return sf;
+  }
+
+  BaseSharedFlow<T> sharedFlow<T>(String id){
+    if (_flowMap.containsKey(id)) return _flowMap[id] as BaseSharedFlow<T>;
+    final sf = SharedFlow<T>();
+    _flowMap[id] = sf;
     return sf;
   }
 
@@ -28,10 +35,10 @@ abstract class ViewModel {
 
   /// used to dispose all the flows.
   void dispose() {
-    for (final element in map.entries) {
-      map[element.key]?.dispose();
+    for (final element in _flowMap.entries) {
+      _flowMap[element.key]?.dispose();
     }
-    map.clear();
+    _flowMap.clear();
   }
 }
 

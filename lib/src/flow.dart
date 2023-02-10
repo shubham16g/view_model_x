@@ -1,25 +1,30 @@
 import 'package:flutter/widgets.dart';
-import 'package:view_model_x/src/view_model.dart';
-import 'package:view_model_x/src/view_model_provider.dart';
 
-class BaseFlow extends ChangeNotifier {
+mixin BaseStateFlow<T> on Listenable {
+  T get value;
+  bool get notifyOnSameValue;
+  set value(T value);
+  void update(void Function(T value) updater);
+  T watch(BuildContext context);
+}
 
-  
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+mixin BaseSharedFlow<T> on Listenable {
+  T? get lastEmitValue;
+  void emit(T value);
 }
 
 /// [SharedFlow] is used to send data to the listeners by emitting the value
-class SharedFlow<T> extends BaseFlow {
+class SharedFlow<T> extends ChangeNotifier with BaseSharedFlow<T> {
   T? _value;
 
+  SharedFlow({void Function()? dispose});
+
   /// get the last emitted value
+  @override
   T? get lastEmitValue => _value;
 
   /// emit and notify listeners
+  @override
   void emit(T data) {
     _value = data;
     notifyListeners();
@@ -27,47 +32,51 @@ class SharedFlow<T> extends BaseFlow {
 }
 
 /// [StateFlow] stores value and notify listeners whenever it changes or updated.
-class StateFlow<T> extends BaseFlow {
-  T _value;
-  final bool notifyOnSameValue;
-
-  /// get the current value.
-  T get value => _value;
-
+class StateFlow<T> extends ChangeNotifier with BaseStateFlow<T> {
   /// If [notifyOnSameValue] is set to false, whenever you call `stateFlow.value = newValue`
   /// where newValue is same as current value, it will not notify listeners. by default it is set to true.
   StateFlow(this._value, {this.notifyOnSameValue = true}) {
     addListener(_defaultListener);
   }
 
+  T _value;
+  @override
+  final bool notifyOnSameValue;
+
+  /// get the current value.
+  @override
+  T get value => _value;
+
   /// watch is experimental for now, it will rebuild the widget of context when value is changed or updated.
+  @override
   T watch(BuildContext context) {
-    contexts[context] = true;
+    _contexts[context] = true;
     return _value;
   }
 
-  final Map<BuildContext, bool> contexts = {};
+  final Map<BuildContext, bool> _contexts = {};
 
   @override
   void dispose() {
-    contexts.clear();
+    _contexts.clear();
     debugPrint("StateFlow Disposed");
     removeListener(_defaultListener);
     super.dispose();
   }
 
   void _defaultListener() {
-    for (final context in contexts.keys) {
+    for (final context in _contexts.keys) {
       try {
         if (context is Element) {
           (context).markNeedsBuild();
         }
       } catch (_) {}
     }
-    contexts.clear();
+    _contexts.clear();
   }
 
   /// change the value and notify listeners
+  @override
   set value(T value) {
     if (_value != value || notifyOnSameValue) {
       _value = value;
@@ -76,6 +85,7 @@ class StateFlow<T> extends BaseFlow {
   }
 
   /// update the value and notify listeners
+  @override
   void update(void Function(T value) updater) {
     updater(value);
     notifyListeners();
