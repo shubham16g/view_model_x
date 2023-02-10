@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:view_model_x/src/view_model.dart';
+import 'package:view_model_x/src/view_model_provider.dart';
 
 /// [SharedFlow] is used to send data to the listeners by emitting the value
 class SharedFlow<T> extends ChangeNotifier {
@@ -39,6 +41,7 @@ class StateFlow<T> extends ChangeNotifier {
   @override
   void dispose() {
     contexts.clear();
+    debugPrint("StateFlow Disposed");
     removeListener(_defaultListener);
     super.dispose();
   }
