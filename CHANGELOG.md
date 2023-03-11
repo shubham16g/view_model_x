@@ -1,3 +1,6 @@
+## 0.6.1
+- Fixed issue: Unhandled Exception - A ChangeNotifier was used after being disposed
+
 ## 0.6.0
 Easier to implement StateFlow and SharedFlow
 - MutableStateFlow removed
