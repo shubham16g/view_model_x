@@ -2,6 +2,7 @@ library view_model_x;
 
 export './src/flow/state_flow.dart';
 export './src/flow/shared_flow.dart';
+export './src/flow/flow_extension.dart';
 export './src/view_model.dart';
 export './src/state_flow_builder.dart';
 export './src/state_flow_consumer.dart';

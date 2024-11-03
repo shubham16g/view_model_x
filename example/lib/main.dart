@@ -1,5 +1,4 @@
 import 'package:example/more_examples_section.dart';
-import 'package:example/test_provider_page.dart';
 import 'package:flutter/material.dart';
 import 'package:view_model_x/view_model_x.dart';
 
@@ -9,10 +8,10 @@ void main() {
 
 class CounterViewModel extends ViewModel {
   // initialize StateFlow
-  final counterStateFlow = StateFlow<int>(1);
+  final counterStateFlow = 1.stf();
 
   // initialize SharedFlow
-  final messageSharedFlow = SharedFlow<String>();
+  final messageSharedFlow = shf<String>();
 
   void increment() {
     // by changing the value, listeners were notified
@@ -48,9 +47,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.blue,
       ),
-      home: TestProviderPage(),
-      // home: ViewModelProvider(
-      //     create: (context) => CounterViewModel(), child: const HomePage()),
+      home: ViewModelProvider(
+          create: (context) => CounterViewModel(), child: const HomePage()),
     );
   }
 }
