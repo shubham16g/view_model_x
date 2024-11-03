@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d54a05c6-5c31-4149-92e8-fb0870ccd682" height="100" alt="Bloc" />
+  <img src="https://github.com/user-attachments/assets/5dcaedbe-9871-40f1-aada-e1e2f6ae73d7" height="120" alt="Bloc" />
 </p>
 <h1 align="center">
   View Model X
