@@ -1,3 +1,8 @@
+## 0.7.0
+- Allowing to add Provider package separately without conflict
+- Added extension `stf()` and function `shf()` to easily create StateFlow and SharedFlow respectively
+- StateFlow's `watch` extension is renamed to `bind`
+
 ## 0.6.1
 - Fixed issue: Unhandled Exception - A ChangeNotifier was used after being disposed
 

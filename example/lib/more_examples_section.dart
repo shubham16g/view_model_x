@@ -30,9 +30,9 @@ class MoreExamplesSection extends StatelessWidget {
               children: _moreExamples.entries
                   .map((entry) => ElevatedButton(
                       style: ButtonStyle(
-                          elevation: MaterialStateProperty.all(0),
+                          elevation: WidgetStateProperty.all(0),
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.blue.shade50)),
+                              WidgetStateProperty.all(Colors.blue.shade50)),
                       onPressed: () {
                         Navigator.push(
                             context,
