@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'base_flow_listener_single_child_widget.dart';
-import 'flow.dart';
+import 'flow/state_flow.dart';
+
 
 /// [StateFlowListener] is used to catch the change/update value event of a [stateFlow].
 /// This requires [stateFlow], [listener] and [child].

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'flow.dart';
+import 'flow/state_flow.dart';
 
 /// This abstract class will rebuild the [builder] whenever its [stateFlow] value changed or updated.
 /// It also have nullable [listener] which can detect the event.

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:view_model_x/src/base_flow_listener_single_child_widget.dart';
-import 'flow.dart';
+import 'flow/shared_flow.dart';
 
 /// [SharedFlowListener] is used to catch the emitted value from [sharedFlow].
 /// This requires [sharedFlow], [listener] and [child].

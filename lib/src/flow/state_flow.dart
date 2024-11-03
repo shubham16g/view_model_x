@@ -1,33 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-/// [SharedFlow] is used to send data to the listeners by emitting the value
-class SharedFlow<T> extends ChangeNotifier {
-  T? _value;
-  bool _disposed = false;
-
-  /// get the last emitted value
-  T? get lastEmitValue => _value;
-
-  /// emit and notify listeners
-  void emit(T data) {
-    _value = data;
-    notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
-
-  @override
-  void notifyListeners() {
-    if (!_disposed) {
-      super.notifyListeners();
-    }
-  }
-}
-
 /// [StateFlow] stores value and notify listeners whenever it changes or updated.
 class StateFlow<T> extends ChangeNotifier {
   T _value;
@@ -44,7 +16,7 @@ class StateFlow<T> extends ChangeNotifier {
   }
 
   /// watch is experimental for now, it will rebuild the widget of context when value is changed or updated.
-  T watch(BuildContext context) {
+  T bind(BuildContext context) {
     _contexts[context] = true;
     return _value;
   }

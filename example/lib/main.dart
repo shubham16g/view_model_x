@@ -1,4 +1,5 @@
 import 'package:example/more_examples_section.dart';
+import 'package:example/test_provider_page.dart';
 import 'package:flutter/material.dart';
 import 'package:view_model_x/view_model_x.dart';
 
@@ -47,8 +48,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.blue,
       ),
-      home: ViewModelProvider(
-          create: (context) => CounterViewModel(), child: const HomePage()),
+      home: TestProviderPage(),
+      // home: ViewModelProvider(
+      //     create: (context) => CounterViewModel(), child: const HomePage()),
     );
   }
 }
