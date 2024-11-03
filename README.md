@@ -32,7 +32,7 @@ GetX’s GetXController with the modularity and adherence to Flutter’s pattern
 and `Bloc`. It allows for organized state management while following Flutter's native way of
 handling widgets and reactivity.
 
-**🚀 LIVE DEMO OF EXAMPLE PROJECT:** https://shubham-gupta-16.github.io/view_model_x/
+**🚀 LIVE DEMO OF EXAMPLE PROJECT:** https://shubham16g.github.io/view_model_x/
 
 ## Features
 
