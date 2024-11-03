@@ -1,6 +1,14 @@
-# View Model X
-
-[![](https://img.shields.io/pub/v/view_model_x.svg?color=success&label=pub.dev&logo=dart&logoColor=0099ff)](https://pub.dev/packages/view_model_x)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d54a05c6-5c31-4149-92e8-fb0870ccd682" height="100" alt="Bloc" />
+</p>
+<h1 align="center">
+  View Model X
+</h1>
+<p align="center">  
+  <a href="https://pub.dev/packages/view_model_x">
+    <img src="https://img.shields.io/pub/v/view_model_x.svg?color=success&label=pub.dev&logo=dart&logoColor=0099ff" alt="pub.dev" />
+  </a>
+</p>
 
 An Android similar state management package which helps to implement MVVM pattern easily.
 
@@ -226,7 +234,7 @@ OR
 context.vm<CustomViewModel>()
 ```
 
-## Builder, Listener, and Consumer Flutter Widgets 
+## Builder, Listener, and Consumer Flutter Widgets
 
 ### StateFlowBuilder
 
@@ -244,8 +252,8 @@ StateFlowBuilder(
 
 
 ### Binding with context `stateFlowObject.bind(BuildContext)`
-We can use `bind` with any `StateFlow` which observe the value change and update the ui. 
-This is similar to Provider's `context.watch<MyChangeNotifier>()`. 
+We can use `bind` with any `StateFlow` which observe the value change and update the ui.
+This is similar to Provider's `context.watch<MyChangeNotifier>()`.
 ```dart
 final value = context.vm<CustomViewModel>().myStateFlow.bind(context);
 ```
