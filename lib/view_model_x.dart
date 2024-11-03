@@ -11,4 +11,9 @@ export './src/shared_flow_listener.dart';
 export './src/view_model_provider.dart';
 export './src/multi_flow_listener.dart';
 export 'package:provider/provider.dart'
-    show ProviderNotFoundException, MultiProvider, ChangeNotifierProvider, ReadContext, WatchContext;
+    show
+        ProviderNotFoundException,
+        MultiProvider,
+        ChangeNotifierProvider,
+        ReadContext,
+        WatchContext;

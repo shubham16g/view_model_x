@@ -36,7 +36,7 @@ handling widgets and reactivity.
 
 ## Package Components
 
-- StateFlow (equivalent to LiveData) ⛵
+- StateFlow ⛵
 - SharedFlow 🌊
 - ViewModel (to separate the view logic from UI like Cubit/GetXController)
 - ViewModelProvider
