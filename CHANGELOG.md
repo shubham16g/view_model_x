@@ -1,3 +1,6 @@
+## 1.0.0
+- Documentation improved
+
 ## 0.7.0
 - Allowing to add Provider package separately without conflict
 - Added extension `stf()` and function `shf()` to easily create StateFlow and SharedFlow respectively

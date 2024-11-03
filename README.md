@@ -102,13 +102,11 @@ class CounterPage extends StatelessWidget {
       body: Center(
         // implement StateFlowBuilder to rebuild Text on StateFlow value changed/updated
         child: StateFlowBuilder(
-          // pass your StateFlow
-          stateFlow: context
-              .vm<CounterViewModel>()
-              .counterStateFlow,
-          builder: (context, value) {
-            return Text("$value", style: const TextStyle(fontSize: 30));
-          },
+            // pass your StateFlow
+            stateFlow: context.vm<CounterViewModel>().counterStateFlow,
+            builder: (context, value) {
+              return Text("$value", style: const TextStyle(fontSize: 30));
+            },
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -126,9 +124,7 @@ class CounterPage extends StatelessWidget {
 ## Package Components
 
 ### ViewModel (Create custom ViewModel class)
-
-Create your custom View-Model which must extends `ViewModel`. Declare all your Flows and View
-related logic inside of it.
+Create your custom View-Model which must extends `ViewModel`. Declare all your Flows and View related logic inside of it.
 Don't forget to dispose all flows inside `dispose` method of `ViewModel`.
 
 ```dart
@@ -147,14 +143,12 @@ class CustomViewModel extends ViewModel {
 ```
 
 ### PostFrameCallback with ViewModel
-
-Using `PostFrameCallback` with `ViewModel` helps to get `onPostFrameCallback` event
-inside `ViewModel` easily.
+Using `PostFrameCallback` with `ViewModel` helps to get `onPostFrameCallback` event inside `ViewModel` easily.
 
 ```dart
 class CustomViewModel extends ViewModel with PostFrameCallback {
   //...
-
+  
   @override
   void onPostFrameCallback(Duration timestamp) {
     // do stuffs here
@@ -163,23 +157,17 @@ class CustomViewModel extends ViewModel with PostFrameCallback {
 ```
 
 ### StateFlow
-
 It stores value and notify listeners whenever it changes. It can change/update the value.
 
 ```dart
-
 final myStateFlow = StateFlow<int>(1, notifyOnSameValue: true);
 ```
-
 OR
-
 ```dart
-
 final myStateFlow = 1.stf();
 ```
 
-Here, notifyOnSameValue is optional. If `notifyOnSameValue` is set to false, whenever you
-call `stateFlow.value = newValue`
+Here, notifyOnSameValue is optional. If `notifyOnSameValue` is set to false, whenever you call `stateFlow.value = newValue`
 where newValue is same as current value, it will not notify listeners. by default it is set to true.
 
 **To change the value**
@@ -189,40 +177,29 @@ myStateFlow.value = 5; // listeners were automatically notified
 ```
 
 **To update the value**
-For something like list or map, you may have to update the existing object instead on resigning a
-value.
+For something like list or map, you may have to update the existing object instead on resigning a value.
 
 ```dart
-listStateFlow.update
-(
-(value) {
-value.add(obj);
+listStateFlow.update((value) {
+  value.add(obj);
 }); // listeners were automatically notified
 ```
 
 ### SharedFlow
-
 It is used to send data to the listeners. It can emit the value.
 
 ```dart
-
 final mySharedFlow = SharedFlow<String>();
 ```
-
 OR
-
 ```dart
-
 final mySharedFlow = stf<String>();
 ```
 
 **To emit the value**
 
 ```dart
-myStateFlow.emit
-("Hello from ViewModel!
-"
-); // listeners were automatically notified
+myStateFlow.emit("Hello from ViewModel!"); // listeners were automatically notified
 ```
 
 ## Integrate ViewModel Into Flutter Widget
@@ -233,79 +210,61 @@ myStateFlow.emit
 This requires `create` which accepts custom `ViewModel` and `child` Widget.
 
 ```dart
-ViewModelProvider
-(
-create: (context) => counterViewModel, // provide your custom viewModel
-child: ChildWidget(
-)
-,
+ViewModelProvider(
+  create: (context) => counterViewModel, // provide your custom viewModel
+  child: ChildWidget(),
 );
 ```
 
 ### Get ViewModel instance inside Widget Tree
 
 ```dart
-ViewModelProvider.of<CustomViewModel>
-(
-context
-)
+ViewModelProvider.of<CustomViewModel>(context)
 ```
-
 OR
-
 ```dart
-context.vm<CustomViewModel>
-()
+context.vm<CustomViewModel>()
 ```
 
-## Builder, Listener, and Consumer Flutter Widgets
+## Builder, Listener, and Consumer Flutter Widgets 
 
 ### StateFlowBuilder
 
 `StateFlowBuilder` is used to rebuild the widgets inside of it.
-This requires `stateFlow` to listen on and `builder` to which rebuilds when the `stateFlow`'s value
-changed/updated.
+This requires `stateFlow` to listen on and `builder` to which rebuilds when the `stateFlow`'s value changed/updated.
 
 ```dart
-StateFlowBuilder
-(
-stateFlow: context.vm<CustomViewModel>().myStateFlow, // pass StateFlow
-builder: (context, value) {
-return ChildWidget(value); // rebuild the widget with updated/changed value.
-},
+StateFlowBuilder(
+  stateFlow: context.vm<CustomViewModel>().myStateFlow, // pass StateFlow
+  builder: (context, value) {
+    return ChildWidget(value); // rebuild the widget with updated/changed value.
+  },
 )
 ```
 
+
 ### Binding with context `stateFlowObject.bind(BuildContext)`
-
-We can use `bind` with any `StateFlow` which observe the value change and update the ui.
-This is similar to Provider's `context.watch<MyChangeNotifier>()`.
-
+We can use `bind` with any `StateFlow` which observe the value change and update the ui. 
+This is similar to Provider's `context.watch<MyChangeNotifier>()`. 
 ```dart
-
-final value = context
-    .vm<CustomViewModel>()
-    .myStateFlow
-    .bind(context);
+final value = context.vm<CustomViewModel>().myStateFlow.bind(context);
 ```
 
 ### StateFlowConsumer
 
 `StateFlowConsumer` is used to rebuild the widgets inside of it and call the listener.
 This requires `stateFlow` to listen on, `builder` and `listener`.
-Whenever `stateFlow`'s value changed/updated, `builder` will rebuild the widgets inside of it
-and `listener` will called.
+Whenever `stateFlow`'s value changed/updated, `builder` will rebuild the widgets inside of it and `listener` will called.
 
 ```dart
-StateFlowConsumer
-(
-stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, // pass SharedFlow
-listener: (context, value) {
-// do stuff here based on value
-},
-builder: (context, value) {
-return ChildWidget(value); // rebuild the widget with updated/changed value.
-},
+StateFlowConsumer(
+  stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, // pass SharedFlow
+  listener: (context, value) {
+    // do stuff here based on value
+  },
+  builder: (context, value) {
+    return ChildWidget(value); // rebuild the widget with updated/changed value.
+  },
 )
 ```
 
@@ -316,20 +275,15 @@ This requires `stateFlow`, `listener` and `child`.
 Whenever `stateFlow`'s value changed/updated, `listener` will called.
 
 ```dart
-StateFlowListener
-(
-stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, // pass StateFlow
-listener: (context, value) {
-// do stuff here based on value
-},
-child
-:
-ChildWidget
-(
-)
-,
+StateFlowListener(
+  stateFlow: ViewModelProvider.of<CustomViewModel>(context).myStateFlow, // pass StateFlow
+  listener: (context, value) {
+    // do stuff here based on value
+  },
+  child: ChildWidget(),
 )
 ```
+
 
 ### SharedFlowListener
 
@@ -338,134 +292,109 @@ This requires `sharedFlow`, `listener` and `child`.
 Whenever `sharedFlow` emits a value, `listener` will called.
 
 ```dart
-SharedFlowListener
-(
-sharedFlow: ViewModelProvider.of<CustomViewModel>(context).mySharedFlow, // pass SharedFlow
-listener: (context, value) {
-// do stuff here based on value
-},
-child
-:
-ChildWidget
-(
-)
-,
+SharedFlowListener(
+  sharedFlow: ViewModelProvider.of<CustomViewModel>(context).mySharedFlow, // pass SharedFlow
+  listener: (context, value) {
+    // do stuff here based on value
+  },
+  child: ChildWidget(),
 )
 ```
 
+
 ### MultiFlowListener
 
-`MultiFlowListener` is a Flutter widget that merges multiple `SharedFlowListener`
-and `StateFlowListener` widgets into one.
+`MultiFlowListener` is a Flutter widget that merges multiple `SharedFlowListener` and `StateFlowListener` widgets into one.
 `MultiFlowListener` improves the readability and eliminates the need to nest multiple listeners.
 By using `MultiFlowListener` we can go from:
 
 ```dart
-SharedFlowListener
-(
-sharedFlow: context.vm<ViewModelA>().mySharedFlow,
-listener: (context, value) {
-// do stuff here based on value
-},
-child: StateFlowListener(
-stateFlow: context.vm<ViewModelA>().myStateFlow,
-listener: (context, value) {
-// do stuff here based on value
-},
-child: SharedFlowListener(
-sharedFlow: context.vm<ViewModelB>().anySharedFlow,
-listener: (context, value) {
-// do stuff here based on value
-},
-child: ChildA(),
-)
-)
+SharedFlowListener(
+  sharedFlow: context.vm<ViewModelA>().mySharedFlow,
+  listener: (context, value) {
+    // do stuff here based on value
+  },
+  child: StateFlowListener(
+    stateFlow: context.vm<ViewModelA>().myStateFlow,
+    listener: (context, value) {
+      // do stuff here based on value
+    },
+    child: SharedFlowListener(
+      sharedFlow: context.vm<ViewModelB>().anySharedFlow,
+      listener: (context, value) {
+        // do stuff here based on value
+      },
+      child: ChildA(),
+    )
+  )
 )
 ```
-
 to
-
 ```dart
-MultiFlowListener
-(
-providers: [
-SharedFlowListener(
-sharedFlow: context.vm<ViewModelA>().mySharedFlow,
-listener: (context, value) {
-// do stuff here based on value
-},
-),
-StateFlowListener(
-stateFlow: context.vm<ViewModelA>().myStateFlow,
-listener: (context, value) {
-// do stuff here based on value
-},
-),
-SharedFlowListener(
-sharedFlow: context.vm<ViewModelB>().anySharedFlow,
-listener: (context, value) {
-// do stuff here based on value
-},
-),
-],
-child: ChildA(),
+MultiFlowListener(
+  providers: [
+    SharedFlowListener(
+      sharedFlow: context.vm<ViewModelA>().mySharedFlow,
+      listener: (context, value) {
+        // do stuff here based on value
+      },
+    ),
+    StateFlowListener(
+      stateFlow: context.vm<ViewModelA>().myStateFlow,
+      listener: (context, value) {
+        // do stuff here based on value
+      },
+    ),
+    SharedFlowListener(
+      sharedFlow: context.vm<ViewModelB>().anySharedFlow,
+      listener: (context, value) {
+        // do stuff here based on value
+      },
+    ),
+  ],
+  child: ChildA(),
 )
 ```
 
 ### MultiProvider
-
 `MutliProvider` is `Provider` package's widget.
-It merges multiple `ViewModelProvider`, `ChangeNotifierProvider`, and/or `Provider` widgets into
-one.
+It merges multiple `ViewModelProvider`, `ChangeNotifierProvider`, and/or `Provider` widgets into one.
 `MultiProvider` improves the readability and eliminates the need to nest multiple widgets.
 By using `MultiProvider` we can go from:
 
 ```dart
-ViewModelProvider
-(
-create: (context) => ViewModelA(),
-child: ViewModelProvider(
-create: (context) => ViewModelB(),
-child: ChangeNotifierProvider(
-create: (context) => ChageNotifierA(),
-child: ChildA(
-)
-,
-)
-)
+ViewModelProvider(
+  create: (context) => ViewModelA(),
+  child: ViewModelProvider(
+    create: (context) => ViewModelB(),
+    child: ChangeNotifierProvider(
+      create: (context) => ChageNotifierA(),
+      child: ChildA(),
+    )
+  )
 )
 ```
-
 to
-
 ```dart
-MultiProvider
-(
-providers: [
-ViewModelProvider(
-create: (context) => ViewModelA(),
-),
-ViewModelProvider(
-create: (context) => ViewModelB(),
-),
-ChageNotifierProvider(
-create: (context) => ChageNotifierA(),
-),
-],
-child: ChildA()
-,
+MultiProvider(
+  providers: [
+    ViewModelProvider(
+      create: (context) => ViewModelA(),
+    ),
+    ViewModelProvider(
+      create: (context) => ViewModelB(),
+    ),
+    ChageNotifierProvider(
+      create: (context) => ChageNotifierA(),
+    ),
+  ],
+  child: ChildA(),
 )
 ```
-
-> **Note:** This MultiProvider is different from one in Provider package. This will only
-> accepts `ViewModelProvider` and `ChangeNotifierProvider`.
-
+> **Note:** This MultiProvider is different from one in Provider package. This will only accepts `ViewModelProvider` and `ChangeNotifierProvider`.
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would
-like to change.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-> **Note:** In Android, ViewModel have an special functionality of keeping the state on
-> configuration change.
-> The ViewModel of this package is not for that as Flutter Project doesn't need it. It is only for
-> separating the View Logic from UI.
+> **Note:** In Android, ViewModel have an special functionality of keeping the state on configuration change.
+> The ViewModel of this package is not for that as Flutter Project doesn't need it. It is only for separating the View Logic from UI.
